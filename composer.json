@@ -1,0 +1,19 @@
+{
+    "name": "ets/document-storage",
+    "description": "Contains interfaces to interact with document storage services",
+    "keywords": ["aws", "s3", "cloud", "echosign"],
+    "homepage": "https://github.com/ETSGlobal/ETSDocumentStorage",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "ETS Global Dev Team",
+            "email": "ecs@etsglobal.org"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "autoload": {
+        "psr-4": { "ETS\\DocumentStorage\\": "" }
+    }
+}
