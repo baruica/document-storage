@@ -1,6 +1,6 @@
 {
     "name": "ets/document-storage",
-    "description": "Contains interfaces to interact with document storage services",
+    "description": "Provides implementations for various document storage services",
     "keywords": ["aws", "s3", "cloud", "echosign"],
     "homepage": "https://github.com/ETSGlobal/ETSDocumentStorage",
     "license": "Apache-2.0",
