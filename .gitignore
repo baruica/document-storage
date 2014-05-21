@@ -1,4 +1,3 @@
-coverage
+composer.lock
 phpunit.xml
 vendor
-composer.lock
