@@ -14,40 +14,46 @@ class EchoSign implements DocumentStorage
     /**
      * @var ETS\EchoSignBundle\Api\Client
      */
-    private $echoSign;
+    private $echoSignClient;
 
+    /**
+     * @var ETS\EchoSignBundle\Api\Parameter\RecipientInfoCollection
+     */
     private $recipients;
 
     /**
-     * @param ETS\EchoSignBundle\Api\Client                            $echoSign
+     * @param ETS\EchoSignBundle\Api\Client                            $echoSignClient
      * @param ETS\EchoSignBundle\Api\Parameter\RecipientInfoCollection $recipients
      */
-    public function __construct(Client $echoSign, RecipientInfoCollection $recipients)
+    public function __construct(Client $echoSignClient, RecipientInfoCollection $recipients)
     {
-        $this->echoSign = $echoSign;
+        $this->echoSignClient = $echoSignClient;
         $this->recipients = $recipients;
     }
 
-    public function upload($filePath, $docName = null, $docKey = null)
+    /**
+     * @see DocumentStorage::upload
+     */
+    public function upload($pathOrBody, $docName = null, $docKey = null)
     {
-        if (!file_exists($filePath)) {
-            throw new \InvalidArgumentException(sprintf('Cannot read file for upload [%s]', $filePath));
+        if (!file_exists($pathOrBody)) {
+            throw new \InvalidArgumentException(sprintf('Cannot read file for upload [%s]', $pathOrBody));
         }
 
         if (null !== $docKey) {
             // call echosign and check if document alredy exist, if this is the case, we delete the document.
-            $info = $this->echoSign->getDocumentInfo($docKey);
+            $info = $this->echoSignClient->getDocumentInfo($docKey);
             if ($info) {
                 try {
-                    $this->echoSign->removeDocument($docKey);
+                    $this->echoSignClient->removeDocument($docKey);
                 } catch (DocumentNotFoundException $e) {}
             }
         }
 
-        $fileInfo = new \SplFileInfo($filePath);
+        $fileInfo = new \SplFileInfo($pathOrBody);
 
         if (null === $docName) {
-            $docName = basename($filePath);
+            $docName = basename($pathOrBody);
         }
 
         $documentInfo = new DocumentCreationInfo(
@@ -62,17 +68,22 @@ class EchoSign implements DocumentStorage
             DocumentCreationInfo::SIGNATURE_FLOW_SENDER_SIGNATURE_NOT_REQUIRED
         );
 
-        $docKey = $this->echoSign->sendDocument($documentInfo);
+        $docKey = $this->echoSignClient->sendDocument($documentInfo);
 
         return $docKey;
     }
 
+    /**
+     * @see DocumentStorage::download
+     */
     public function download($docKey)
     {}
 
-    public function saveAs($docKey, $saveAs)
-    {}
-
+    /**
+     * @see DocumentStorage::getDownloadLink
+     */
     public function getDownloadLink($docKey)
-    {}
+    {
+        return $this->echoSignClient->getDocumentUrls($docKey);
+    }
 }
