@@ -10,10 +10,15 @@
             "email": "ecs@etsglobal.org"
         }
     ],
-    "require": {
-        "php": ">=5.4.0"
-    },
     "autoload": {
         "psr-4": { "ETS\\DocumentStorage\\": "" }
+    },
+    "require": {
+        "php": ">=5.4.0",
+        "aws/aws-sdk-php" : "~2.6",
+        "ets/echosign-bundle": "dev-master"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.0"
     }
 }
