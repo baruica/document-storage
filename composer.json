@@ -14,7 +14,7 @@
         "psr-4": { "ETS\\DocumentStorage\\": "" }
     },
     "require": {
-        "php": ">=5.4.0",
+        "php": ">=5.3.3",
         "aws/aws-sdk-php" : "~2.6",
         "ets/echosign-bundle": "~0.2"
     },
