@@ -1,6 +1,8 @@
 ETSDocumentStorage
 ==================
 
+[![Build Status](https://api.travis-ci.org/ETSGlobal/ETSDocumentStorage.png)](https://travis-ci.org/ETSGlobal/ETSDocumentStorage)
+
 Provides implementations to interact with various document storage services
 
 Installation
