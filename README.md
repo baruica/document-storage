@@ -3,6 +3,7 @@
 [![Latest Stable Version](https://poser.pugx.org/ets/document-storage/v/stable.svg)](https://packagist.org/packages/ets/document-storage)
 [![Total Downloads](https://poser.pugx.org/ets/document-storage/downloads.svg)](https://packagist.org/packages/ets/document-storage)
 [![Latest Unstable Version](https://poser.pugx.org/ets/document-storage/v/unstable.svg)](https://packagist.org/packages/ets/document-storage)
+[![Build Status](https://travis-ci.org/ETSGlobal/ETSDocumentStorage.png)](https://travis-ci.org/ETSGlobal/ETSDocumentStorage)
 [![License](https://poser.pugx.org/ets/document-storage/license.svg)](https://packagist.org/packages/ets/document-storage)
 
 Provides implementations to interact with various document storage services
