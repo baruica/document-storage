@@ -37,4 +37,4 @@ If the document doesn't exist, it will throw a ETS\DocumentStorage\Exception\Doc
 
 Code License
 ============
-[Resources/meta/LICENSE](https://github.com/ETSGlobal/document-storage/blob/master/Resources/meta/LICENSE)
+[LICENSE](https://github.com/ETSGlobal/document-storage/blob/master/LICENSE)

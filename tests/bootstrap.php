@@ -3,8 +3,11 @@
 error_reporting(-1);
 date_default_timezone_set('UTC');
 
-if (!file_exists('~/.aws/credentials')) {
-    die('~/.aws/credentials does not exist');
+$processUser = posix_getpwuid(posix_geteuid());
+$credFile = sprintf('/home/%s/.aws/credentials', $processUser['name']);
+
+if (!file_exists($credFile)) {
+    die(sprintf('%s does not exist', $credFile));
 }
 
 // Ensure that composer has installed all dependencies
@@ -14,4 +17,4 @@ if (!file_exists(dirname(__DIR__) . '/composer.lock')) {
 }
 
 // Include the composer autoloader
-require dirname(__DIR__).'/../vendor/autoload.php';
+require dirname(__DIR__).'/vendor/autoload.php';

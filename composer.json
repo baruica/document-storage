@@ -11,7 +11,7 @@
         }
     ],
     "autoload": {
-        "psr-4": { "ETS\\DocumentStorage\\": "" }
+        "psr-4": { "ETS\\DocumentStorage\\": "src/" }
     },
     "require": {
         "php": ">=5.3.3",
