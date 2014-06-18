@@ -5,6 +5,7 @@
 [![Latest Unstable Version](https://poser.pugx.org/ets/document-storage/v/unstable.svg)](https://packagist.org/packages/ets/document-storage)
 [![Build Status](https://travis-ci.org/ETSGlobal/document-storage.png)](https://travis-ci.org/ETSGlobal/document-storage)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/5b12c51f-2338-40b3-95a6-fee5cee48993/mini.png)](https://insight.sensiolabs.com/projects/5b12c51f-2338-40b3-95a6-fee5cee48993)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/ETSGlobal/document-storage/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/ETSGlobal/document-storage/?branch=master)
 [![License](https://poser.pugx.org/ets/document-storage/license.svg)](https://packagist.org/packages/ets/document-storage)
 
 Provides implementations to interact with various document storage services
