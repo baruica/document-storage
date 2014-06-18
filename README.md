@@ -3,7 +3,7 @@
 [![Latest Stable Version](https://poser.pugx.org/ets/document-storage/v/stable.svg)](https://packagist.org/packages/ets/document-storage)
 [![Total Downloads](https://poser.pugx.org/ets/document-storage/downloads.svg)](https://packagist.org/packages/ets/document-storage)
 [![Latest Unstable Version](https://poser.pugx.org/ets/document-storage/v/unstable.svg)](https://packagist.org/packages/ets/document-storage)
-[![Build Status](https://travis-ci.org/ETSGlobal/ETSDocumentStorage.png)](https://travis-ci.org/ETSGlobal/ETSDocumentStorage)
+[![Build Status](https://travis-ci.org/ETSGlobal/document-storage.png)](https://travis-ci.org/ETSGlobal/document-storage)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/5b12c51f-2338-40b3-95a6-fee5cee48993/mini.png)](https://insight.sensiolabs.com/projects/5b12c51f-2338-40b3-95a6-fee5cee48993)
 [![License](https://poser.pugx.org/ets/document-storage/license.svg)](https://packagist.org/packages/ets/document-storage)
 
