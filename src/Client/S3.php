@@ -2,10 +2,10 @@
 
 namespace ETS\DocumentStorage\Client;
 
-use Aws\S3\Exception\S3Exception;
 use Aws\S3\S3Client;
 
 use ETS\DocumentStorage\Exception\DocumentNotFoundException;
+use ETS\DocumentStorage\Exception\DocumentNotUploadedException;
 
 class S3 implements DocumentStorage
 {
@@ -40,8 +40,10 @@ class S3 implements DocumentStorage
                 $docName,
                 $pathOrBody
             );
-        } catch (S3Exception $e) {
-            echo "There was an error uploading the file.\n";
+        } catch (\Exception $e) {
+            throw new DocumentNotUploadedException(
+                sprintf('There was an error uploading the file [%s]', $e->getMessage())
+            );
         }
 
         // We can poll the object until it is accessible

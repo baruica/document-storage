@@ -2,6 +2,7 @@
 
 namespace ETS\DocumentStorage\Client;
 
+use ETS\DocumentStorage\Exception\DocumentNotUploadedException;
 use ETS\EchoSignBundle\Api\Client;
 use ETS\EchoSignBundle\Api\Parameter\DocumentCreationInfo;
 use ETS\EchoSignBundle\Api\Parameter\FileInfo;
@@ -37,7 +38,7 @@ class EchoSign implements DocumentStorage
     public function upload($pathOrBody, $docName = null, $docKey = null)
     {
         if (!file_exists($pathOrBody)) {
-            throw new \InvalidArgumentException(sprintf('Cannot read file for upload [%s]', $pathOrBody));
+            throw new DocumentNotUploadedException(sprintf('Cannot read file for upload [%s]', $pathOrBody));
         }
 
         if (null !== $docKey) {
@@ -68,7 +69,11 @@ class EchoSign implements DocumentStorage
             DocumentCreationInfo::SIGNATURE_FLOW_SENDER_SIGNATURE_NOT_REQUIRED
         );
 
-        $docKey = $this->echoSignClient->sendDocument($documentInfo);
+        try {
+            $docKey = $this->echoSignClient->sendDocument($documentInfo);
+        } catch (\Exception $e) {
+            throw new DocumentNotUploadedException(sprintf('Upload failed [%s]', $e->getMessage()));
+        }
 
         return $docKey;
     }

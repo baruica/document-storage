@@ -81,6 +81,16 @@ class S3Test extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @expectedException ETS\DocumentStorage\Exception\DocumentNotUploadedException
+     */
+    public function testFailingUploadThrowsAnException()
+    {
+        self::$s3->upload(
+            (boolean) true // invalid type for the pathOrBody
+        );
+    }
+
+    /**
      * @return array
      */
     public function provideDocNames()

@@ -10,6 +10,8 @@ interface DocumentStorage
      * @param string          $docKey
      *
      * @return string the document key
+     *
+     * @throws ETS\DocumentStorage\Exception\DocumentNotUploadedException If upload failed
      */
     public function upload($pathOrBody, $docName = null, $docKey = null);
 
