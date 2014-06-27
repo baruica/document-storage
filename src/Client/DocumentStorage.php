@@ -14,14 +14,14 @@ interface DocumentStorage
     public function upload($pathOrBody, $docName = null, $docKey = null);
 
     /**
-     * @param  string $docKey
+     * @param string $docKey
      */
     public function download($docKey);
 
     /**
-     * @param  string $docKey
+     * @param string $docKey
      *
-     * @return string
+     * @return string the link to download the document
      *
      * @throws ETS\DocumentStorage\Exception\DocumentNotFoundException If no document is found
      */
