@@ -8,7 +8,6 @@ use ETS\EchoSignBundle\Api\Parameter\DocumentCreationInfo;
 use ETS\EchoSignBundle\Api\Parameter\FileInfo;
 use ETS\EchoSignBundle\Api\Parameter\FileInfoCollection;
 use ETS\EchoSignBundle\Api\Parameter\RecipientInfoCollection;
-use ETS\EchoSignBundle\Exception\DocumentNotFoundException;
 
 class EchoSign implements DocumentStorage
 {
@@ -35,20 +34,10 @@ class EchoSign implements DocumentStorage
     /**
      * @see DocumentStorage::upload
      */
-    public function upload($pathOrBody, $docName = null, $docKey = null)
+    public function upload($pathOrBody, $docName = null, $oldDocKey = null)
     {
         if (!file_exists($pathOrBody)) {
             throw new DocumentNotUploadedException(sprintf('Cannot read file for upload [%s]', $pathOrBody));
-        }
-
-        if (null !== $docKey) {
-            // call echosign and check if document alredy exist, if this is the case, we delete the document.
-            $info = $this->echoSignClient->getDocumentInfo($docKey);
-            if ($info) {
-                try {
-                    $this->echoSignClient->removeDocument($docKey);
-                } catch (DocumentNotFoundException $e) {}
-            }
         }
 
         $fileInfo = new \SplFileInfo($pathOrBody);
@@ -63,7 +52,8 @@ class EchoSign implements DocumentStorage
             new FileInfoCollection(array(
                 new FileInfo(
                     $docName.'.'.$fileInfo->getExtension(),
-                    $fileInfo->getRealPath())
+                    $fileInfo->getRealPath()
+                )
             )),
             DocumentCreationInfo::SIGNATURE_TYPE_ESIGN,
             DocumentCreationInfo::SIGNATURE_FLOW_SENDER_SIGNATURE_NOT_REQUIRED
@@ -72,7 +62,16 @@ class EchoSign implements DocumentStorage
         try {
             $docKey = $this->echoSignClient->sendDocument($documentInfo);
         } catch (\Exception $e) {
-            throw new DocumentNotUploadedException(sprintf('Upload failed [%s]', $e->getMessage()));
+            throw new DocumentNotUploadedException(sprintf('Failed uploading [%s]: %s', $docName, $e->getMessage()));
+        }
+
+        if (null !== $oldDocKey) {
+            // call echosign and check if document alredy exist, if this is the case, we delete the document.
+            if (null !== $info = $this->echoSignClient->getDocumentInfo($oldDocKey)) {
+                try {
+                    $this->echoSignClient->removeDocument($oldDocKey);
+                } catch (\Exception $e) {}
+            }
         }
 
         return $docKey;

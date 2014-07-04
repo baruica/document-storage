@@ -7,13 +7,13 @@ interface DocumentStorage
     /**
      * @param resource|string $pathOrBody
      * @param string          $docName  the name of the file once uploaded
-     * @param string          $docKey
+     * @param string          $oldDocKey
      *
      * @return string the document key
      *
      * @throws ETS\DocumentStorage\Exception\DocumentNotUploadedException If upload failed
      */
-    public function upload($pathOrBody, $docName = null, $docKey = null);
+    public function upload($pathOrBody, $docName = null, $oldDocKey = null);
 
     /**
      * @param string $docKey

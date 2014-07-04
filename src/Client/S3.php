@@ -32,7 +32,7 @@ class S3 implements DocumentStorage
     /**
      * @see DocumentStorage::upload
      */
-    public function upload($pathOrBody, $docName = null, $docKey = null)
+    public function upload($pathOrBody, $docName = null, $oldDocKey = null)
     {
         try {
             $result = $this->s3Client->upload(
