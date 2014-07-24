@@ -12,7 +12,7 @@ before_script:
     - composer install --dev --no-interaction --prefer-dist
 
 script:
-    - ./vendor/bin/phpunit -c tests/phpunit.xml.dist
+    - ./vendor/bin/phpunit -c tests/phpunit.xml
 
 matrix:
     allow_failures:
