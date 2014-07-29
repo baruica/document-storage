@@ -9,7 +9,7 @@ use ETS\EchoSignBundle\Api\Parameter\FileInfo;
 use ETS\EchoSignBundle\Api\Parameter\FileInfoCollection;
 use ETS\EchoSignBundle\Api\Parameter\RecipientInfoCollection;
 
-class EchoSign implements DocumentStorage
+class EchoSign implements DocumentStorageInterface
 {
     /**
      * @var ETS\EchoSignBundle\Api\Client
