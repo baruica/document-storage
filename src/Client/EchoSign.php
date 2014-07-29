@@ -67,7 +67,7 @@ class EchoSign implements DocumentStorage
 
         if (null !== $oldDocKey) {
             // call echosign and check if document alredy exist, if this is the case, we delete the document.
-            if (null !== $info = $this->echoSignClient->getDocumentInfo($oldDocKey)) {
+            if (null !== $this->echoSignClient->getDocumentInfo($oldDocKey)) {
                 try {
                     $this->echoSignClient->removeDocument($oldDocKey);
                 } catch (\Exception $e) {}
