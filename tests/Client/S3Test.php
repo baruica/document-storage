@@ -18,19 +18,20 @@ class S3Test extends \PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
+        $region = 'eu-west-1';
+
         self::$client = S3Client::factory(array(
             'profile' => 'test',
-            'region'  => 'eu-west-1',
+            'region'  => $region,
         ));
 
         self::$bucket = uniqid('document-storage-tests-', true);
 
         self::$client->createBucket(array(
             'Bucket'             => self::$bucket,
-            'LocationConstraint' => 'eu-west-1',
+            'LocationConstraint' => $region,
         ));
 
-        // Wait until the bucket is created
         self::$client->waitUntilBucketExists(array('Bucket' => self::$bucket));
 
         self::$s3 = new S3(
@@ -67,10 +68,7 @@ class S3Test extends \PHPUnit_Framework_TestCase
      */
     public function testUpload($docName, $body)
     {
-        $docUrl = self::$s3->upload(
-            $body,
-            $docName
-        );
+        $docUrl = self::$s3->upload($body, $docName);
 
         self::$client->waitUntil('ObjectExists', array(
             'Bucket' => self::$bucket,
