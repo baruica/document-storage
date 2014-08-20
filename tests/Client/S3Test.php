@@ -19,7 +19,7 @@ class S3Test extends \PHPUnit_Framework_TestCase
     public static function setUpBeforeClass()
     {
         self::$client = S3Client::factory(array(
-            'profile' => 'poc_user',
+            'profile' => 'test',
             'region'  => 'eu-west-1',
         ));
 
