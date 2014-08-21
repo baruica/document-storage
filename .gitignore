@@ -1,5 +1,5 @@
+bin
 vendor
 
-# Composer
 composer.lock
 composer.phar

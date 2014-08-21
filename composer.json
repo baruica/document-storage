@@ -13,12 +13,16 @@
     "autoload": {
         "psr-4": { "ETS\\DocumentStorage\\": "src/" }
     },
+    "config": {
+        "bin-dir": "bin"
+    },
     "require": {
         "php": ">=5.3.3",
         "aws/aws-sdk-php" : "~2.6",
         "ets/echosign-bundle": "~0.2"
     },
     "require-dev": {
+        "phpspec/phpspec": "~2.0",
         "phpunit/phpunit": "~4.0"
     }
 }
