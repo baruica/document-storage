@@ -38,7 +38,7 @@ class S3 implements ClientInterface
             $result = $this->s3Client->upload(
                 $this->bucket,
                 $docName,
-                $pathOrBody
+                file_exists($pathOrBody) ? file_get_contents($pathOrBody) : $pathOrBody
             );
         } catch (\Exception $e) {
             throw new DocumentNotUploadedException(
