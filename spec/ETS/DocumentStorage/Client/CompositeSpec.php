@@ -33,12 +33,12 @@ class CompositeSpec extends ObjectBehavior
         $this->upload($path);
     }
 
-    function it_should_call_download_on_its_clients_when_downloading(ClientInterface $clientMock1, ClientInterface $clientMock2)
+    function it_should_call_download_only_on_its_first_client_when_downloading(ClientInterface $clientMock1, ClientInterface $clientMock2)
     {
         $docKey = 'docKey';
 
         $clientMock1->download($docKey)->shouldBeCalled();
-        $clientMock2->download($docKey)->shouldBeCalled();
+        $clientMock2->download($docKey)->shouldNotBeCalled();
 
         $this->download($docKey);
     }

@@ -33,7 +33,7 @@ class Composite implements ClientInterface
     public function download($docKey)
     {
         foreach ($this->clients as $client) {
-            $client->download($docKey);
+            return $client->download($docKey);
         }
     }
 
