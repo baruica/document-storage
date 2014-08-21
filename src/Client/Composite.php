@@ -43,7 +43,7 @@ class Composite implements ClientInterface
     public function getDownloadLink($docKey)
     {
         foreach ($this->clients as $client) {
-            $client->getDownloadLink($docKey);
+            return $client->getDownloadLink($docKey);
         }
     }
 }

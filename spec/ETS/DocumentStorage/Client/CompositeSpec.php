@@ -43,12 +43,12 @@ class CompositeSpec extends ObjectBehavior
         $this->download($docKey);
     }
 
-    function it_should_call_getDownloadLink_on_its_clients_when_getDownloadLink_is_called(ClientInterface $clientMock1, ClientInterface $clientMock2)
+    function it_should_call_getDownloadLink_only_on_its_first_client_when_getDownloadLink_is_called(ClientInterface $clientMock1, ClientInterface $clientMock2)
     {
         $docKey = 'docKey';
 
         $clientMock1->getDownloadLink($docKey)->shouldBeCalled();
-        $clientMock2->getDownloadLink($docKey)->shouldBeCalled();
+        $clientMock2->getDownloadLink($docKey)->shouldNotBeCalled();
 
         $this->getDownloadLink($docKey);
     }
