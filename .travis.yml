@@ -12,8 +12,7 @@ install:
     - composer install --dev --no-interaction --prefer-dist
 
 script:
-    - bin/phpspec run
-    - bin/phpunit -c tests/phpunit.xml
+    - bin/phpspec run && bin/phpunit -c tests/phpunit.xml
 
 matrix:
     allow_failures:
