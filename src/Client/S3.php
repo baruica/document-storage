@@ -20,24 +20,30 @@ class S3 implements ClientInterface
     private $bucket;
 
     /**
+     * @var string
+     */
+    private $folder;
+
+    /**
      * @param Aws\S3\S3Client $s3Client
      * @param string          $bucket
      */
-    public function __construct(S3Client $s3Client, $bucket)
+    public function __construct(S3Client $s3Client, $bucket, $folder = null)
     {
         $this->s3Client = $s3Client;
         $this->bucket = $bucket;
+        $this->folder = $folder;
     }
 
     /**
      * @see DocumentStorage::upload
      */
-    public function upload($pathOrBody, $docName = null, $oldDocKey = null)
+    public function upload($pathOrBody, $docKey = null, $oldDocKey = null)
     {
         try {
             $result = $this->s3Client->upload(
                 $this->bucket,
-                $docName,
+                $this->getKeyPath($docKey),
                 file_exists($pathOrBody) ? file_get_contents($pathOrBody) : $pathOrBody
             );
         } catch (\Exception $e) {
@@ -49,7 +55,7 @@ class S3 implements ClientInterface
         // We can poll the object until it is accessible
         $this->s3Client->waitUntil('ObjectExists', array(
             'Bucket' => $this->bucket,
-            'Key'    => $docName
+            'Key'    => $this->getKeyPath($docKey)
         ));
 
         return $result['ObjectURL'];
@@ -62,7 +68,7 @@ class S3 implements ClientInterface
     {
         $result = $this->s3Client->getObject(array(
             'Bucket' => $this->bucket,
-            'Key'    => $docKey
+            'Key'    => $this->getKeyPath($docKey)
         ));
 
         return $result->getUri();
@@ -73,10 +79,21 @@ class S3 implements ClientInterface
      */
     public function getDownloadLink($docKey)
     {
-        if (false === $this->s3Client->doesObjectExist($this->bucket, $docKey)) {
+        if (false === $this->s3Client->doesObjectExist($this->bucket, $this->getKeyPath($docKey))) {
             throw new DocumentNotFoundException(sprintf('Document [%s] does not exist in bucket [%s]', $docKey, $this->bucket));
         }
 
-        return $this->s3Client->getObjectUrl($this->bucket, $docKey);
+        return $this->s3Client->getObjectUrl($this->bucket, $this->getKeyPath($docKey));
+    }
+
+    /**
+     * @param  string $docKey
+     * @return string
+     */
+    private function getKeyPath($docKey)
+    {
+        return (null === $this->folder)
+               ?                   $docKey
+               : $this->folder.'/'.$docKey;
     }
 }

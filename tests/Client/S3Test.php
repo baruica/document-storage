@@ -10,6 +10,7 @@ class S3Test extends \PHPUnit_Framework_TestCase
 {
     protected static $client;
     protected static $bucket;
+    protected static $folder;
     protected static $s3;
 
     private $docsToUpload = array(
@@ -26,6 +27,7 @@ class S3Test extends \PHPUnit_Framework_TestCase
         ));
 
         self::$bucket = uniqid('document-storage-tests-', true);
+        self::$folder = 'test-folder';
 
         self::$client->createBucket(array(
             'Bucket'             => self::$bucket,
@@ -36,7 +38,8 @@ class S3Test extends \PHPUnit_Framework_TestCase
 
         self::$s3 = new S3(
             self::$client,
-            self::$bucket
+            self::$bucket,
+            self::$folder
         );
     }
 
@@ -56,8 +59,8 @@ class S3Test extends \PHPUnit_Framework_TestCase
     public function provideUpload()
     {
         $uploads = array();
-        foreach ($this->docsToUpload as $docName) {
-            $uploads[] = array($docName, 'test body');
+        foreach ($this->docsToUpload as $docKey) {
+            $uploads[] = array($docKey, 'test body');
         }
 
         return $uploads;
@@ -66,16 +69,11 @@ class S3Test extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider provideUpload
      */
-    public function testUpload($docName, $body)
+    public function testUpload($docKey, $body)
     {
-        $docUrl = self::$s3->upload($body, $docName);
+        $docUrl = self::$s3->upload($body, $docKey);
 
-        self::$client->waitUntil('ObjectExists', array(
-            'Bucket' => self::$bucket,
-            'Key'    => $docName,
-        ));
-
-        $this->assertStringEndsWith($docName, $docUrl);
+        $this->assertStringEndsWith($docKey, $docUrl);
     }
 
     /**
@@ -102,11 +100,11 @@ class S3Test extends \PHPUnit_Framework_TestCase
      * @depends testUpload
      * @dataProvider provideDocNames
      */
-    public function testGetDownloadLink($docName)
+    public function testGetDownloadLink($docKey)
     {
-        $docUrl = self::$s3->getDownloadLink($docName);
+        $docUrl = self::$s3->getDownloadLink($docKey);
 
-        $this->assertStringEndsWith($docName, $docUrl);
+        $this->assertStringEndsWith($docKey, $docUrl);
     }
 
     /**
