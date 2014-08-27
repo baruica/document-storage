@@ -17,6 +17,8 @@ interface ClientInterface
 
     /**
      * @param string $docKey
+     *
+     * @throws ETS\DocumentStorage\Exception\DocumentNotFoundException If no document is found
      */
     public function download($docKey);
 
@@ -24,8 +26,6 @@ interface ClientInterface
      * @param string $docKey
      *
      * @return string the link to download the document
-     *
-     * @throws ETS\DocumentStorage\Exception\DocumentNotFoundException If no document is found
      */
     public function getDownloadLink($docKey);
 }

@@ -41,7 +41,7 @@ class S3 implements ClientInterface
     public function upload($pathOrBody, $docKey = null, $oldDocKey = null)
     {
         try {
-            $result = $this->s3Client->upload(
+            $uploadResult = $this->s3Client->upload(
                 $this->bucket,
                 $this->getKeyPath($docKey),
                 file_exists($pathOrBody) ? file_get_contents($pathOrBody) : $pathOrBody
@@ -58,7 +58,7 @@ class S3 implements ClientInterface
             'Key'    => $this->getKeyPath($docKey)
         ));
 
-        return $result['ObjectURL'];
+        return $uploadResult['ObjectURL'];
     }
 
     /**
@@ -66,12 +66,18 @@ class S3 implements ClientInterface
      */
     public function download($docKey)
     {
-        $result = $this->s3Client->getObject(array(
-            'Bucket' => $this->bucket,
-            'Key'    => $this->getKeyPath($docKey)
-        ));
+        try {
+            $downloadResult = $this->s3Client->getObject(array(
+                'Bucket' => $this->bucket,
+                'Key'    => $this->getKeyPath($docKey)
+            ));
+        } catch (\Exception $e) {
+            throw new DocumentNotFoundException(
+                sprintf('Document [%s] does not exist in bucket [%s]', $this->getKeyPath($docKey), $this->bucket)
+            );
+        }
 
-        return $result->getUri();
+        return $downloadResult->getUri();
     }
 
     /**
@@ -79,10 +85,6 @@ class S3 implements ClientInterface
      */
     public function getDownloadLink($docKey)
     {
-        if (false === $this->s3Client->doesObjectExist($this->bucket, $this->getKeyPath($docKey))) {
-            throw new DocumentNotFoundException(sprintf('Document [%s] does not exist in bucket [%s]', $docKey, $this->bucket));
-        }
-
         return $this->s3Client->getObjectUrl($this->bucket, $this->getKeyPath($docKey));
     }
 

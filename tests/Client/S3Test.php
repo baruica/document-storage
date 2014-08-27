@@ -108,10 +108,11 @@ class S3Test extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @depends testUpload
      * @expectedException ETS\DocumentStorage\Exception\DocumentNotFoundException
      */
-    public function testGetDownloadLinkIfDocDoesNotExist()
+    public function testDownloadIfDocDoesNotExist()
     {
-        self::$s3->getDownloadLink('non-existing-file.txt');
+        self::$s3->download('non-existing-file.txt');
     }
 }
