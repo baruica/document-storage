@@ -27,7 +27,7 @@ class S3Test extends \PHPUnit_Framework_TestCase
         ));
 
         self::$bucket = uniqid('document-storage-tests-', true);
-        self::$folder = 'test-folder';
+        self::$folder = 'test folder';
 
         self::$client->createBucket(array(
             'Bucket'             => self::$bucket,
