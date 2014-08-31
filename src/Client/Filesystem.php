@@ -5,7 +5,7 @@ namespace ETS\DocumentStorage\Client;
 use ETS\DocumentStorage\Exception\DocumentNotFoundException;
 use ETS\DocumentStorage\Exception\DocumentNotUploadedException;
 
-class Filesystem implements ClientInterface
+class Filesystem implements DocumentStorageClient
 {
     /**
      * @var string $storageDir

@@ -2,7 +2,7 @@
 
 namespace ETS\DocumentStorage\Client;
 
-interface ClientInterface
+interface DocumentStorageClient
 {
     /**
      * @param resource|string $pathOrBody

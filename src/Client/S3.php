@@ -7,7 +7,7 @@ use Aws\S3\S3Client;
 use ETS\DocumentStorage\Exception\DocumentNotFoundException;
 use ETS\DocumentStorage\Exception\DocumentNotUploadedException;
 
-class S3 implements ClientInterface
+class S3 implements DocumentStorageClient
 {
     /**
      * @var Aws\S3\S3Client

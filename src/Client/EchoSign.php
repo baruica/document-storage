@@ -2,14 +2,15 @@
 
 namespace ETS\DocumentStorage\Client;
 
-use ETS\DocumentStorage\Exception\DocumentNotUploadedException;
 use ETS\EchoSignBundle\Api\Client;
 use ETS\EchoSignBundle\Api\Parameter\DocumentCreationInfo;
 use ETS\EchoSignBundle\Api\Parameter\FileInfo;
 use ETS\EchoSignBundle\Api\Parameter\FileInfoCollection;
 use ETS\EchoSignBundle\Api\Parameter\RecipientInfoCollection;
 
-class EchoSign implements ClientInterface
+use ETS\DocumentStorage\Exception\DocumentNotUploadedException;
+
+class EchoSign implements DocumentStorageClient
 {
     /**
      * @var ETS\EchoSignBundle\Api\Client

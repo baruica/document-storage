@@ -2,7 +2,7 @@
 
 namespace ETS\DocumentStorage\Client;
 
-class Composite implements ClientInterface
+class Composite implements DocumentStorageClient
 {
     /**
      * @var array
