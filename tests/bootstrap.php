@@ -4,10 +4,10 @@ error_reporting(-1);
 date_default_timezone_set('UTC');
 
 $processUser = posix_getpwuid(posix_geteuid());
-$credFile = sprintf('/home/%s/.aws/credentials', $processUser['name']);
+$credFile    = sprintf('/home/%s/.aws/credentials', $processUser['name']);
 
 if (!file_exists($credFile)) {
-    die(sprintf('%s does not exist', $credFile));
+    die(sprintf('credentials file [%s] does not exist', $credFile)."\n");
 }
 
 // Ensure that composer has installed all dependencies

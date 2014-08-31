@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit bootstrap="bootstrap.php"
+<phpunit bootstrap="tests/bootstrap.php"
          colors="true"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
@@ -11,8 +11,8 @@
          verbose="true">
 
     <testsuites>
-        <testsuite name="ETS Document Storage Test Suite">
-            <directory>.</directory>
+        <testsuite name="Document Storage Test Suite">
+            <directory>tests</directory>
         </testsuite>
     </testsuites>
 </phpunit>
