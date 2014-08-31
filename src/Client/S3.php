@@ -9,19 +9,13 @@ use ETS\DocumentStorage\Exception\DocumentNotUploadedException;
 
 class S3 implements DocumentStorageClient
 {
-    /**
-     * @var Aws\S3\S3Client
-     */
+    /** @var Aws\S3\S3Client */
     private $s3Client;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $bucket;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $folder;
 
     /**
@@ -38,12 +32,12 @@ class S3 implements DocumentStorageClient
     /**
      * @see DocumentStorage::upload
      */
-    public function upload($pathOrBody, $docKey = null, $oldDocKey = null)
+    public function upload($pathOrBody, $docName, $oldDocName = null)
     {
         try {
             $uploadResult = $this->s3Client->upload(
                 $this->bucket,
-                $this->getKeyPath($docKey),
+                $this->getKeyPath($docName),
                 file_exists($pathOrBody) ? file_get_contents($pathOrBody) : $pathOrBody
             );
         } catch (\Exception $e) {
@@ -55,7 +49,7 @@ class S3 implements DocumentStorageClient
         // We can poll the object until it is accessible
         $this->s3Client->waitUntil('ObjectExists', array(
             'Bucket' => $this->bucket,
-            'Key'    => $this->getKeyPath($docKey)
+            'Key'    => $this->getKeyPath($docName)
         ));
 
         return $uploadResult['ObjectURL'];
@@ -64,16 +58,16 @@ class S3 implements DocumentStorageClient
     /**
      * @see DocumentStorage::download
      */
-    public function download($docKey)
+    public function download($docName)
     {
         try {
             $downloadResult = $this->s3Client->getObject(array(
                 'Bucket' => $this->bucket,
-                'Key'    => $this->getKeyPath($docKey)
+                'Key'    => $this->getKeyPath($docName)
             ));
         } catch (\Exception $e) {
             throw new DocumentNotFoundException(
-                sprintf('Document [%s] does not exist in bucket [%s]', $this->getKeyPath($docKey), $this->bucket)
+                sprintf('Document [%s] does not exist in bucket [%s]', $this->getKeyPath($docName), $this->bucket)
             );
         }
 
@@ -83,19 +77,19 @@ class S3 implements DocumentStorageClient
     /**
      * @see DocumentStorage::getDownloadLink
      */
-    public function getDownloadLink($docKey)
+    public function getDownloadLink($docName)
     {
-        return $this->s3Client->getObjectUrl($this->bucket, $this->getKeyPath($docKey));
+        return $this->s3Client->getObjectUrl($this->bucket, $this->getKeyPath($docName));
     }
 
     /**
-     * @param  string $docKey
+     * @param  string $docName
      * @return string
      */
-    private function getKeyPath($docKey)
+    private function getKeyPath($docName)
     {
         return (null === $this->folder)
-               ?                   $docKey
-               : $this->folder.'/'.$docKey;
+               ?                   $docName
+               : $this->folder.'/'.$docName;
     }
 }

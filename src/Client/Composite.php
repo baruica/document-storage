@@ -4,9 +4,7 @@ namespace ETS\DocumentStorage\Client;
 
 class Composite implements DocumentStorageClient
 {
-    /**
-     * @var array
-     */
+    /** @var DocumentStorageClient[] */
     private $clients;
 
     /**
@@ -20,30 +18,30 @@ class Composite implements DocumentStorageClient
     /**
      * @see DocumentStorage::upload
      */
-    public function upload($pathOrBody, $docName = null, $oldDocKey = null)
+    public function upload($pathOrBody, $docName, $oldDocName = null)
     {
         foreach ($this->clients as $client) {
-            $client->upload($pathOrBody, $docName, $oldDocKey);
+            $client->upload($pathOrBody, $docName, $oldDocName);
         }
     }
 
     /**
      * @see DocumentStorage::download
      */
-    public function download($docKey)
+    public function download($docName)
     {
         foreach ($this->clients as $client) {
-            return $client->download($docKey);
+            return $client->download($docName);
         }
     }
 
     /**
      * @see DocumentStorage::getDownloadLink
      */
-    public function getDownloadLink($docKey)
+    public function getDownloadLink($docName)
     {
         foreach ($this->clients as $client) {
-            return $client->getDownloadLink($docKey);
+            return $client->getDownloadLink($docName);
         }
     }
 }

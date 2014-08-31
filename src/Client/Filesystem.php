@@ -7,23 +7,19 @@ use ETS\DocumentStorage\Exception\DocumentNotUploadedException;
 
 class Filesystem implements DocumentStorageClient
 {
-    /**
-     * @var string $storageDir
-     */
+    /** @var string $storageDir */
     private $storageDir;
 
     /**
      * @param string $storageDir
      *
-     * @throws \InvalidArgumentException If $storageDir is not a directory or not a directory we can create on the fly
+     * @throws \InvalidArgumentException If $storageDir is not a directory
      * @throws \InvalidArgumentException If $storageDir is not writable
      */
     public function __construct($storageDir)
     {
         if (!is_dir($storageDir)) {
-            if (!mkdir($storageDir, 0755, true)) {
-                throw new \InvalidArgumentException(sprintf('[%s] is not a directory, or cannot be created', $storageDir));
-            }
+            throw new \InvalidArgumentException(sprintf('[%s] is not a directory', $storageDir));
         }
 
         if (!is_writable($storageDir)) {
@@ -36,9 +32,9 @@ class Filesystem implements DocumentStorageClient
     /**
      * @see DocumentStorage::upload
      */
-    public function upload($pathOrBody, $docName = null, $oldDocKey = null)
+    public function upload($pathOrBody, $docName, $oldDocName = null)
     {
-        $docPath = $this->storageDir.DIRECTORY_SEPARATOR.$docName;
+        $docPath = $this->getDocPath($docName);
 
         $upload = file_exists($pathOrBody)
                 ? copy($pathOrBody, $docPath)
@@ -54,11 +50,11 @@ class Filesystem implements DocumentStorageClient
     /**
      * @see DocumentStorage::download
      */
-    public function download($docKey)
+    public function download($docName)
     {
-        $docPath = $this->storageDir.DIRECTORY_SEPARATOR.$docName;
+        $docPath = $this->getDocPath($docName);
 
-        if (false === $contents = file_get_contents($docPath)) {
+        if (false === $contents = @file_get_contents($docPath)) {
             throw new DocumentNotFoundException(sprintf('Could not download [%s]', $docPath));
         }
 
@@ -68,6 +64,15 @@ class Filesystem implements DocumentStorageClient
     /**
      * @see DocumentStorage::getDownloadLink
      */
-    public function getDownloadLink($docKey)
+    public function getDownloadLink($docName)
     {}
+
+    /**
+     * @param  string $docName
+     * @return string
+     */
+    private function getDocPath($docName)
+    {
+        return $this->storageDir.DIRECTORY_SEPARATOR.$docName;
+    }
 }

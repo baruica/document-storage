@@ -35,17 +35,13 @@ class EchoSign implements DocumentStorageClient
     /**
      * @see DocumentStorage::upload
      */
-    public function upload($pathOrBody, $docName = null, $oldDocKey = null)
+    public function upload($pathOrBody, $docName, $oldDocName = null)
     {
         if (!file_exists($pathOrBody)) {
             throw new DocumentNotUploadedException(sprintf('Cannot read file for upload [%s]', $pathOrBody));
         }
 
         $fileInfo = new \SplFileInfo($pathOrBody);
-
-        if (null === $docName) {
-            $docName = basename($pathOrBody);
-        }
 
         $documentInfo = new DocumentCreationInfo(
             $this->recipients,
@@ -66,11 +62,11 @@ class EchoSign implements DocumentStorageClient
             throw new DocumentNotUploadedException(sprintf('Failed uploading [%s]: %s', $docName, $e->getMessage()));
         }
 
-        if (null !== $oldDocKey) {
+        if (null !== $oldDocName) {
             // call echosign and check if document alredy exist, if this is the case, we delete the document.
-            if (null !== $this->echoSignClient->getDocumentInfo($oldDocKey)) {
+            if (null !== $this->echoSignClient->getDocumentInfo($oldDocName)) {
                 try {
-                    $this->echoSignClient->removeDocument($oldDocKey);
+                    $this->echoSignClient->removeDocument($oldDocName);
                 } catch (\Exception $e) {}
             }
         }
@@ -81,14 +77,14 @@ class EchoSign implements DocumentStorageClient
     /**
      * @see DocumentStorage::download
      */
-    public function download($docKey)
+    public function download($docName)
     {}
 
     /**
      * @see DocumentStorage::getDownloadLink
      */
-    public function getDownloadLink($docKey)
+    public function getDownloadLink($docName)
     {
-        return $this->echoSignClient->getDocumentUrls($docKey);
+        return $this->echoSignClient->getDocumentUrls($docName);
     }
 }

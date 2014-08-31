@@ -24,31 +24,32 @@ class CompositeSpec extends ObjectBehavior
 
     function it_should_call_upload_on_its_clients_when_uploading(DocumentStorageClient $clientMock1, DocumentStorageClient $clientMock2)
     {
-        $path = '/path';
+        $path    = '/path';
+        $docName = 'docName';
 
-        $clientMock1->upload($path, null, null)->shouldBeCalled();
-        $clientMock2->upload($path, null, null)->shouldBeCalled();
+        $clientMock1->upload($path, $docName, null)->shouldBeCalled();
+        $clientMock2->upload($path, $docName, null)->shouldBeCalled();
 
-        $this->upload($path);
+        $this->upload($path, $docName);
     }
 
     function it_should_call_download_only_on_its_first_client_when_downloading(DocumentStorageClient $clientMock1, DocumentStorageClient $clientMock2)
     {
-        $docKey = 'docKey';
+        $docName = 'docName';
 
-        $clientMock1->download($docKey)->shouldBeCalled();
-        $clientMock2->download($docKey)->shouldNotBeCalled();
+        $clientMock1->download($docName)->shouldBeCalled();
+        $clientMock2->download($docName)->shouldNotBeCalled();
 
-        $this->download($docKey);
+        $this->download($docName);
     }
 
     function it_should_call_getDownloadLink_only_on_its_first_client_when_getDownloadLink_is_called(DocumentStorageClient $clientMock1, DocumentStorageClient $clientMock2)
     {
-        $docKey = 'docKey';
+        $docName = 'docName';
 
-        $clientMock1->getDownloadLink($docKey)->shouldBeCalled();
-        $clientMock2->getDownloadLink($docKey)->shouldNotBeCalled();
+        $clientMock1->getDownloadLink($docName)->shouldBeCalled();
+        $clientMock2->getDownloadLink($docName)->shouldNotBeCalled();
 
-        $this->getDownloadLink($docKey);
+        $this->getDownloadLink($docName);
     }
 }
