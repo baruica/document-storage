@@ -1,13 +1,14 @@
 <?php
 
-namespace ETS\DocumentStorage\Client;
+namespace ETS\DocumentStorage\Adapter\Storage;
 
 use Aws\S3\S3Client;
 
+use ETS\DocumentStorage\Storage;
 use ETS\DocumentStorage\Exception\DocumentNotFoundException;
 use ETS\DocumentStorage\Exception\DocumentNotUploadedException;
 
-class S3 implements DocumentStorageClient
+class S3 implements Storage
 {
     /** @var Aws\S3\S3Client */
     private $s3Client;

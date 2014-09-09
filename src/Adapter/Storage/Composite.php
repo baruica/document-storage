@@ -1,10 +1,12 @@
 <?php
 
-namespace ETS\DocumentStorage\Client;
+namespace ETS\DocumentStorage\Adapter\Storage;
 
-class Composite implements DocumentStorageClient
+use ETS\DocumentStorage\Storage;
+
+class Composite implements Storage
 {
-    /** @var DocumentStorageClient[] */
+    /** @var Storage[] */
     private $clients;
 
     /**

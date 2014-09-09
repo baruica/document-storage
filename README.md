@@ -19,13 +19,13 @@ php composer.phar require ets/document-storage
 ```
 See the tags to know which version to use when it asks for a version.
 
-## Clients
+## Storage adapters
 
-All clients implement the ETS\DocumentStorage\Client\DocumentStorageClient interface:
-- ETS\DocumentStorage\Client\Composite
-- ETS\DocumentStorage\Client\EchoSign
-- ETS\DocumentStorage\Client\Filesystem
-- ETS\DocumentStorage\Client\S3
+All storage adapters implement the ETS\DocumentStorage\Storage interface:
+- ETS\DocumentStorage\Adapter\Storage\Composite
+- ETS\DocumentStorage\Adapter\Storage\EchoSign
+- ETS\DocumentStorage\Adapter\Storage\Filesystem
+- ETS\DocumentStorage\Adapter\Storage\S3
 
 **To upload a document:**
 ```php

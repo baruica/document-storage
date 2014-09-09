@@ -1,6 +1,6 @@
 <?php
 
-namespace spec\ETS\DocumentStorage\Client;
+namespace spec\ETS\DocumentStorage\Adapter\Storage;
 
 use PhpSpec\ObjectBehavior;
 
@@ -8,10 +8,10 @@ use ETS\DocumentStorage\Exception\DocumentNotFoundException;
 
 class FilesystemSpec extends ObjectBehavior
 {
-    function it_implements_the_DocumentStorageClient_interface()
+    function it_implements_the_Storage_interface()
     {
         $this->beConstructedWith('/tmp');
-        $this->shouldImplement('ETS\DocumentStorage\Client\DocumentStorageClient');
+        $this->shouldImplement('ETS\DocumentStorage\Storage');
     }
 
     function it_throws_an_exception_if_given_storage_dir_is_not_a_directory()

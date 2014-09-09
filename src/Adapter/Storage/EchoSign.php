@@ -1,6 +1,6 @@
 <?php
 
-namespace ETS\DocumentStorage\Client;
+namespace ETS\DocumentStorage\Adapter\Storage;
 
 use ETS\EchoSignBundle\Api\Client;
 use ETS\EchoSignBundle\Api\Parameter\DocumentCreationInfo;
@@ -8,9 +8,10 @@ use ETS\EchoSignBundle\Api\Parameter\FileInfo;
 use ETS\EchoSignBundle\Api\Parameter\FileInfoCollection;
 use ETS\EchoSignBundle\Api\Parameter\RecipientInfoCollection;
 
+use ETS\DocumentStorage\Storage;
 use ETS\DocumentStorage\Exception\DocumentNotUploadedException;
 
-class EchoSign implements DocumentStorageClient
+class EchoSign implements Storage
 {
     /**
      * @var ETS\EchoSignBundle\Api\Client

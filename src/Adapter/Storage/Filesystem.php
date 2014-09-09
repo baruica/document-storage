@@ -1,11 +1,12 @@
 <?php
 
-namespace ETS\DocumentStorage\Client;
+namespace ETS\DocumentStorage\Adapter\Storage;
 
+use ETS\DocumentStorage\Storage;
 use ETS\DocumentStorage\Exception\DocumentNotFoundException;
 use ETS\DocumentStorage\Exception\DocumentNotUploadedException;
 
-class Filesystem implements DocumentStorageClient
+class Filesystem implements Storage
 {
     /** @var string $storageDir */
     private $storageDir;

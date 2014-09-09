@@ -1,6 +1,6 @@
 <?php
 
-namespace spec\ETS\DocumentStorage\Client;
+namespace spec\ETS\DocumentStorage\Adapter\Storage;
 
 use PhpSpec\ObjectBehavior;
 
@@ -11,8 +11,8 @@ class S3Spec extends ObjectBehavior
         $this->beConstructedWith($s3Client, 'bucket');
     }
 
-    function it_implements_the_DocumentStorageClient_interface()
+    function it_implements_the_Storage_interface()
     {
-        $this->shouldImplement('ETS\DocumentStorage\Client\DocumentStorageClient');
+        $this->shouldImplement('ETS\DocumentStorage\Storage');
     }
 }

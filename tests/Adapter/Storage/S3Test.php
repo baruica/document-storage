@@ -1,10 +1,10 @@
 <?php
 
-namespace ETS\DocumentStorage\Tests\Client;
+namespace ETS\DocumentStorage\Tests\Adapter\Storage;
 
 use Aws\S3\S3Client;
 
-use ETS\DocumentStorage\Client\S3;
+use ETS\DocumentStorage\Adapter\Storage\S3;
 
 class S3Test extends \PHPUnit_Framework_TestCase
 {
@@ -49,7 +49,6 @@ class S3Test extends \PHPUnit_Framework_TestCase
 
         self::$client->deleteBucket(array('Bucket' => self::$bucket));
 
-        // Wait until the bucket is not accessible
         self::$client->waitUntilBucketNotExists(array('Bucket' => self::$bucket));
     }
 
@@ -82,7 +81,8 @@ class S3Test extends \PHPUnit_Framework_TestCase
     public function testFailingUploadThrowsAnException()
     {
         self::$s3->upload(
-            (boolean) true // invalid type for the pathOrBody
+            (boolean) true, // invalid type for the pathOrBody
+            'docName'
         );
     }
 

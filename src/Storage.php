@@ -1,8 +1,8 @@
 <?php
 
-namespace ETS\DocumentStorage\Client;
+namespace ETS\DocumentStorage;
 
-interface DocumentStorageClient
+interface Storage
 {
     /**
      * @param resource|string $pathOrBody
