@@ -10,7 +10,7 @@
 
 [![License](https://poser.pugx.org/ets/document-storage/license.svg)](https://packagist.org/packages/ets/document-storage)
 
-Provides implementations to interact with various document storage services
+Provides implementations to interact with various cloud storage services.
 
 ## Installation
 
@@ -27,15 +27,15 @@ All storage adapters implement the ETS\DocumentStorage\Storage interface:
 - ETS\DocumentStorage\Adapter\Storage\Filesystem
 - ETS\DocumentStorage\Adapter\Storage\S3
 
-**To upload a document:**
+**To store a document:**
 ```php
-$docUrl = $client->upload('body of a doc', 'docName');
+$docUrl = $storage->store('body of a doc', 'docName');
 ```
 The method returns the document's url.
 
 **To get the document's url**
 ```php
-$docUrl = $client->getUrl('docName');
+$docUrl = $storage->getUrl('docName');
 ```
 If the document doesn't exist, it will throw a ETS\DocumentStorage\Exception\DocumentNotFoundException.
 
