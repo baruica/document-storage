@@ -33,9 +33,9 @@ $docUrl = $client->upload('body of a doc', 'docName');
 ```
 The method returns the document's url.
 
-**To get a document's download link**
+**To get the document's url**
 ```php
-$docUrl = $client->getDownloadLink('docName');
+$docUrl = $client->getUrl('docName');
 ```
 If the document doesn't exist, it will throw a ETS\DocumentStorage\Exception\DocumentNotFoundException.
 

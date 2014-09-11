@@ -9,7 +9,7 @@ use ETS\EchoSignBundle\Api\Parameter\FileInfoCollection;
 use ETS\EchoSignBundle\Api\Parameter\RecipientInfoCollection;
 
 use ETS\DocumentStorage\Storage;
-use ETS\DocumentStorage\Exception\DocumentNotUploadedException;
+use ETS\DocumentStorage\Exception\DocumentNotStoredException;
 
 class EchoSign implements Storage
 {
@@ -34,12 +34,12 @@ class EchoSign implements Storage
     }
 
     /**
-     * @see DocumentStorage::upload
+     * @see ETS\DocumentStorage\Storage::store
      */
-    public function upload($pathOrBody, $docName, $oldDocName = null)
+    public function store($pathOrBody, $docName, $oldDocName = null)
     {
         if (!file_exists($pathOrBody)) {
-            throw new DocumentNotUploadedException(sprintf('Cannot read file for upload [%s]', $pathOrBody));
+            throw new DocumentNotStoredException(sprintf('Cannot read file [%s]', $pathOrBody));
         }
 
         $fileInfo = new \SplFileInfo($pathOrBody);
@@ -60,7 +60,7 @@ class EchoSign implements Storage
         try {
             $docKey = $this->echoSignClient->sendDocument($documentInfo);
         } catch (\Exception $e) {
-            throw new DocumentNotUploadedException(sprintf('Failed uploading [%s]: %s', $docName, $e->getMessage()));
+            throw new DocumentNotStoredException(sprintf('Failed storing [%s]: %s', $docName, $e->getMessage()));
         }
 
         if (null !== $oldDocName) {
@@ -76,15 +76,15 @@ class EchoSign implements Storage
     }
 
     /**
-     * @see DocumentStorage::download
+     * @see ETS\DocumentStorage\Storage::retrieve
      */
-    public function download($docName)
+    public function retrieve($docName)
     {}
 
     /**
-     * @see DocumentStorage::getDownloadLink
+     * @see ETS\DocumentStorage\Storage::getUrl
      */
-    public function getDownloadLink($docName)
+    public function getUrl($docName)
     {
         return $this->echoSignClient->getDocumentUrls($docName);
     }

@@ -6,7 +6,7 @@ use ETS\DocumentStorage\Storage;
 
 class Composite implements Storage
 {
-    /** @var Storage[] */
+    /** @var ETS\DocumentStorage\Storage[] */
     private $clients;
 
     /**
@@ -18,32 +18,32 @@ class Composite implements Storage
     }
 
     /**
-     * @see DocumentStorage::upload
+     * @see ETS\DocumentStorage\Storage::store
      */
-    public function upload($pathOrBody, $docName, $oldDocName = null)
+    public function store($pathOrBody, $docName, $oldDocName = null)
     {
         foreach ($this->clients as $client) {
-            $client->upload($pathOrBody, $docName, $oldDocName);
+            $client->store($pathOrBody, $docName, $oldDocName);
         }
     }
 
     /**
-     * @see DocumentStorage::download
+     * @see ETS\DocumentStorage\Storage::retrieve
      */
-    public function download($docName)
+    public function retrieve($docName)
     {
         foreach ($this->clients as $client) {
-            return $client->download($docName);
+            return $client->retrieve($docName);
         }
     }
 
     /**
-     * @see DocumentStorage::getDownloadLink
+     * @see ETS\DocumentStorage\Storage::getUrl
      */
-    public function getDownloadLink($docName)
+    public function getUrl($docName)
     {
         foreach ($this->clients as $client) {
-            return $client->getDownloadLink($docName);
+            return $client->getUrl($docName);
         }
     }
 }

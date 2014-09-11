@@ -22,34 +22,34 @@ class CompositeSpec extends ObjectBehavior
         $this->shouldImplement('ETS\DocumentStorage\Storage');
     }
 
-    function it_should_call_upload_on_its_clients_when_uploading(Storage $storage1, Storage $storage2)
+    function it_should_call_store_on_its_clients_when_storing(Storage $storage1, Storage $storage2)
     {
         $path    = '/path';
         $docName = 'docName';
 
-        $storage1->upload($path, $docName, null)->shouldBeCalled();
-        $storage2->upload($path, $docName, null)->shouldBeCalled();
+        $storage1->store($path, $docName, null)->shouldBeCalled();
+        $storage2->store($path, $docName, null)->shouldBeCalled();
 
-        $this->upload($path, $docName);
+        $this->store($path, $docName);
     }
 
-    function it_should_call_download_only_on_its_first_client_when_downloading(Storage $storage1, Storage $storage2)
+    function it_should_call_retrieve_only_on_its_first_client_when_retrieving(Storage $storage1, Storage $storage2)
     {
         $docName = 'docName';
 
-        $storage1->download($docName)->shouldBeCalled();
-        $storage2->download($docName)->shouldNotBeCalled();
+        $storage1->retrieve($docName)->shouldBeCalled();
+        $storage2->retrieve($docName)->shouldNotBeCalled();
 
-        $this->download($docName);
+        $this->retrieve($docName);
     }
 
-    function it_should_call_getDownloadLink_only_on_its_first_client_when_getDownloadLink_is_called(Storage $storage1, Storage $storage2)
+    function it_should_call_getUrl_only_on_its_first_client_when_getUrl_is_called(Storage $storage1, Storage $storage2)
     {
         $docName = 'docName';
 
-        $storage1->getDownloadLink($docName)->shouldBeCalled();
-        $storage2->getDownloadLink($docName)->shouldNotBeCalled();
+        $storage1->getUrl($docName)->shouldBeCalled();
+        $storage2->getUrl($docName)->shouldNotBeCalled();
 
-        $this->getDownloadLink($docName);
+        $this->getUrl($docName);
     }
 }

@@ -34,16 +34,16 @@ class FilesystemSpec extends ObjectBehavior
         ;
     }
 
-    function it_throws_an_exception_if_it_cannot_download_a_file()
+    function it_throws_an_exception_if_it_cannot_retrieve_a_document()
     {
         $storageDir = '/tmp';
-        $docName = 'non-exixtent-file';
+        $docName = 'non-exixtent-doc';
 
         $this->beConstructedWith($storageDir);
 
         $this
-            ->shouldThrow(new DocumentNotFoundException(sprintf('Could not download [%s]', $storageDir.DIRECTORY_SEPARATOR.$docName)))
-            ->duringDownload($docName)
+            ->shouldThrow(new DocumentNotFoundException(sprintf('Could not retrieve [%s]', $storageDir.DIRECTORY_SEPARATOR.$docName)))
+            ->duringRetrieve($docName)
         ;
     }
 }

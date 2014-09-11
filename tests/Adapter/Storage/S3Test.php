@@ -13,12 +13,18 @@ class S3Test extends \PHPUnit_Framework_TestCase
     protected static $folder;
     protected static $s3;
 
-    private $docsToUpload = array(
-        'test-file.txt',
+    private $docNamesToStore = array(
+        'test-doc.txt',
     );
 
     public static function setUpBeforeClass()
     {
+        $processUser = posix_getpwuid(posix_geteuid());
+
+        if (!file_exists(sprintf('/home/%s/.aws/credentials', $processUser['name']))) {
+            throw new \PHPUnit_Framework_SkippedTestSuiteError('No credentials file found in home directory, skipping S3 tests.');
+        }
+
         $region = 'eu-west-1';
 
         self::$client = S3Client::factory(array(
@@ -55,32 +61,32 @@ class S3Test extends \PHPUnit_Framework_TestCase
     /**
      * @return array
      */
-    public function provideUpload()
+    public function provideStore()
     {
-        $uploads = array();
-        foreach ($this->docsToUpload as $docKey) {
-            $uploads[] = array($docKey, 'test body');
+        $docsToStore = array();
+        foreach ($this->docNamesToStore as $docName) {
+            $docsToStore[] = array($docName, 'test body');
         }
 
-        return $uploads;
+        return $docsToStore;
     }
 
     /**
-     * @dataProvider provideUpload
+     * @dataProvider provideStore
      */
-    public function testUpload($docKey, $body)
+    public function testStore($docName, $body)
     {
-        $docUrl = self::$s3->upload($body, $docKey);
+        $docUrl = self::$s3->store($body, $docName);
 
-        $this->assertStringEndsWith($docKey, $docUrl);
+        $this->assertStringEndsWith($docName, $docUrl);
     }
 
     /**
-     * @expectedException ETS\DocumentStorage\Exception\DocumentNotUploadedException
+     * @expectedException ETS\DocumentStorage\Exception\DocumentNotStoredException
      */
-    public function testFailingUploadThrowsAnException()
+    public function testFailingStorageThrowsAnException()
     {
-        self::$s3->upload(
+        self::$s3->store(
             (boolean) true, // invalid type for the pathOrBody
             'docName'
         );
@@ -92,27 +98,27 @@ class S3Test extends \PHPUnit_Framework_TestCase
     public function provideDocNames()
     {
         return array(
-            $this->docsToUpload,
+            $this->docNamesToStore,
         );
     }
 
     /**
-     * @depends testUpload
+     * @depends testStore
      * @dataProvider provideDocNames
      */
-    public function testGetDownloadLink($docKey)
+    public function testGetUrl($docName)
     {
-        $docUrl = self::$s3->getDownloadLink($docKey);
+        $docUrl = self::$s3->getUrl($docName);
 
-        $this->assertStringEndsWith($docKey, $docUrl);
+        $this->assertStringEndsWith($docName, $docUrl);
     }
 
     /**
-     * @depends testUpload
+     * @depends testStore
      * @expectedException ETS\DocumentStorage\Exception\DocumentNotFoundException
      */
-    public function testDownloadIfDocDoesNotExist()
+    public function testRetrieveIfDocDoesNotExist()
     {
-        self::$s3->download('non-existing-file.txt');
+        self::$s3->retrieve('non-existing-doc.txt');
     }
 }

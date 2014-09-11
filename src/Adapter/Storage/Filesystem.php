@@ -4,7 +4,7 @@ namespace ETS\DocumentStorage\Adapter\Storage;
 
 use ETS\DocumentStorage\Storage;
 use ETS\DocumentStorage\Exception\DocumentNotFoundException;
-use ETS\DocumentStorage\Exception\DocumentNotUploadedException;
+use ETS\DocumentStorage\Exception\DocumentNotStoredException;
 
 class Filesystem implements Storage
 {
@@ -31,41 +31,41 @@ class Filesystem implements Storage
     }
 
     /**
-     * @see DocumentStorage::upload
+     * @see ETS\DocumentStorage\Storage::store
      */
-    public function upload($pathOrBody, $docName, $oldDocName = null)
+    public function store($pathOrBody, $docName, $oldDocName = null)
     {
         $docPath = $this->getDocPath($docName);
 
-        $upload = file_exists($pathOrBody)
+        $storage = file_exists($pathOrBody)
                 ? copy($pathOrBody, $docPath)
                 : file_put_contents($docPath, $pathOrBody);
 
-        if (false === $upload) {
-            throw new DocumentNotUploadedException('There was an error saving the file [%s] to the filesystem.');
+        if (false === $storage) {
+            throw new DocumentNotStoredException('There was an error storing the document [%s] to the filesystem.');
         }
 
         return $docPath;
     }
 
     /**
-     * @see DocumentStorage::download
+     * @see ETS\DocumentStorage\Storage::retrieve
      */
-    public function download($docName)
+    public function retrieve($docName)
     {
         $docPath = $this->getDocPath($docName);
 
         if (false === $contents = @file_get_contents($docPath)) {
-            throw new DocumentNotFoundException(sprintf('Could not download [%s]', $docPath));
+            throw new DocumentNotFoundException(sprintf('Could not retrieve [%s]', $docPath));
         }
 
         return $contents;
     }
 
     /**
-     * @see DocumentStorage::getDownloadLink
+     * @see ETS\DocumentStorage\Storage::getUrl
      */
-    public function getDownloadLink($docName)
+    public function getUrl($docName)
     {}
 
     /**
