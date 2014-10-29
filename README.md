@@ -15,7 +15,7 @@ Provides implementations to interact with various cloud storage services.
 ## Installation
 
 ```bash
-php composer.phar require ets/document-storage
+composer require ets/document-storage
 ```
 See the tags to know which version to use when it asks for a version.
 
