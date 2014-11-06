@@ -55,7 +55,7 @@ class Filesystem implements Storage
     {
         $docPath = $this->getDocPath($docName);
 
-        if (false === $contents = file_get_contents($docPath)) {
+        if (false === file_exists($docPath) || false === $contents = file_get_contents($docPath)) {
             throw new DocumentNotFoundException(sprintf('Could not retrieve [%s]', $docPath));
         }
 
