@@ -10,7 +10,7 @@ use ETS\DocumentStorage\Exception\DocumentNotStoredException;
 
 class S3 implements Storage
 {
-    /** @var Aws\S3\S3Client */
+    /** @var \Aws\S3\S3Client */
     private $s3Client;
 
     /** @var string */
@@ -20,9 +20,9 @@ class S3 implements Storage
     private $directory;
 
     /**
-     * @param Aws\S3\S3Client $s3Client
-     * @param string          $bucket
-     * @param string          $directory
+     * @param \Aws\S3\S3Client $s3Client
+     * @param string           $bucket
+     * @param string           $directory
      */
     public function __construct(S3Client $s3Client, $bucket, $directory = null)
     {
@@ -32,7 +32,7 @@ class S3 implements Storage
     }
 
     /**
-     * @see ETS\DocumentStorage\Storage::store
+     * @inheritdoc
      */
     public function store($pathOrBody, $docName, $oldDocName = null)
     {
@@ -49,16 +49,19 @@ class S3 implements Storage
         }
 
         // We can poll the object until it is accessible
-        $this->s3Client->waitUntil('ObjectExists', array(
-            'Bucket' => $this->bucket,
-            'Key'    => $this->getKeyPath($docName),
-        ));
+        $this->s3Client->waitUntil(
+            'ObjectExists',
+            array(
+                'Bucket' => $this->bucket,
+                'Key'    => $this->getKeyPath($docName),
+            )
+        );
 
         return $uploadResult['ObjectURL'];
     }
 
     /**
-     * @see ETS\DocumentStorage\Storage::retrieve
+     * @inheritdoc
      */
     public function retrieve($docName)
     {
@@ -77,7 +80,7 @@ class S3 implements Storage
     }
 
     /**
-     * @see ETS\DocumentStorage\Storage::getUrl
+     * @inheritdoc
      */
     public function getUrl($docName)
     {

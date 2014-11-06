@@ -8,9 +8,16 @@ use ETS\DocumentStorage\Adapter\Storage\S3;
 
 class S3Test extends \PHPUnit_Framework_TestCase
 {
+    /** @var \Aws\S3\S3Client */
     protected static $client;
+
+    /** @var string */
     protected static $bucket;
+
+    /** @var string */
     protected static $folder;
+
+    /** @var \ETS\DocumentStorage\Adapter\Storage\S3 */
     protected static $s3;
 
     private $docNamesToStore = array(
@@ -27,18 +34,22 @@ class S3Test extends \PHPUnit_Framework_TestCase
 
         $region = 'eu-west-1';
 
-        self::$client = S3Client::factory(array(
-            'profile' => 'test',
-            'region'  => $region,
-        ));
+        self::$client = S3Client::factory(
+            array(
+                'profile' => 'test',
+                'region'  => $region,
+            )
+        );
 
         self::$bucket = uniqid('document-storage-tests-', true);
         self::$folder = 'test folder';
 
-        self::$client->createBucket(array(
-            'Bucket'             => self::$bucket,
-            'LocationConstraint' => $region,
-        ));
+        self::$client->createBucket(
+            array(
+                'Bucket'             => self::$bucket,
+                'LocationConstraint' => $region,
+            )
+        );
 
         self::$client->waitUntilBucketExists(array('Bucket' => self::$bucket));
 
@@ -73,6 +84,9 @@ class S3Test extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider provideStore
+     *
+     * @param string $docName
+     * @param string $body
      */
     public function testStore($docName, $body)
     {
@@ -82,7 +96,7 @@ class S3Test extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException ETS\DocumentStorage\Exception\DocumentNotStoredException
+     * @expectedException \ETS\DocumentStorage\Exception\DocumentNotStoredException
      */
     public function testFailingStorageThrowsAnException()
     {
@@ -103,8 +117,10 @@ class S3Test extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @depends testStore
+     * @depends      testStore
      * @dataProvider provideDocNames
+     *
+     * @param string $docName
      */
     public function testGetUrl($docName)
     {
@@ -115,7 +131,7 @@ class S3Test extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends testStore
-     * @expectedException ETS\DocumentStorage\Exception\DocumentNotFoundException
+     * @expectedException \ETS\DocumentStorage\Exception\DocumentNotFoundException
      */
     public function testRetrieveIfDocDoesNotExist()
     {

@@ -31,7 +31,7 @@ class Filesystem implements Storage
     }
 
     /**
-     * @see ETS\DocumentStorage\Storage::store
+     * @inheritdoc
      */
     public function store($pathOrBody, $docName, $oldDocName = null)
     {
@@ -49,13 +49,13 @@ class Filesystem implements Storage
     }
 
     /**
-     * @see ETS\DocumentStorage\Storage::retrieve
+     * @inheritdoc
      */
     public function retrieve($docName)
     {
         $docPath = $this->getDocPath($docName);
 
-        if (false === $contents = @file_get_contents($docPath)) {
+        if (false === $contents = file_get_contents($docPath)) {
             throw new DocumentNotFoundException(sprintf('Could not retrieve [%s]', $docPath));
         }
 
@@ -63,10 +63,11 @@ class Filesystem implements Storage
     }
 
     /**
-     * @see ETS\DocumentStorage\Storage::getUrl
+     * @inheritdoc
      */
     public function getUrl($docName)
-    {}
+    {
+    }
 
     /**
      * @param  string $docName

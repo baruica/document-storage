@@ -11,7 +11,7 @@ interface Storage
      *
      * @return string the document key
      *
-     * @throws ETS\DocumentStorage\Exception\DocumentNotStoredException If storage failed
+     * @throws \ETS\DocumentStorage\Exception\DocumentNotStoredException If storage failed
      */
     public function store($pathOrBody, $docName, $oldDocName = null);
 
@@ -20,7 +20,7 @@ interface Storage
      *
      * @return string the body of the document
      *
-     * @throws ETS\DocumentStorage\Exception\DocumentNotFoundException If no document is found
+     * @throws \ETS\DocumentStorage\Exception\DocumentNotFoundException If no document is found
      */
     public function retrieve($docName);
 

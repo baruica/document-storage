@@ -14,18 +14,18 @@ use ETS\DocumentStorage\Exception\DocumentNotStoredException;
 class EchoSign implements Storage
 {
     /**
-     * @var ETS\EchoSignBundle\Api\Client
+     * @var \ETS\EchoSignBundle\Api\Client
      */
     private $echoSignClient;
 
     /**
-     * @var ETS\EchoSignBundle\Api\Parameter\RecipientInfoCollection
+     * @var \ETS\EchoSignBundle\Api\Parameter\RecipientInfoCollection
      */
     private $recipients;
 
     /**
-     * @param ETS\EchoSignBundle\Api\Client                            $echoSignClient
-     * @param ETS\EchoSignBundle\Api\Parameter\RecipientInfoCollection $recipients
+     * @param \ETS\EchoSignBundle\Api\Client                            $echoSignClient
+     * @param \ETS\EchoSignBundle\Api\Parameter\RecipientInfoCollection $recipients
      */
     public function __construct(Client $echoSignClient, RecipientInfoCollection $recipients)
     {
@@ -34,7 +34,7 @@ class EchoSign implements Storage
     }
 
     /**
-     * @see ETS\DocumentStorage\Storage::store
+     * @inheritdoc
      */
     public function store($pathOrBody, $docName, $oldDocName = null)
     {
@@ -47,12 +47,14 @@ class EchoSign implements Storage
         $documentInfo = new DocumentCreationInfo(
             $this->recipients,
             $docName,
-            new FileInfoCollection(array(
-                new FileInfo(
-                    $docName.'.'.$fileInfo->getExtension(),
-                    $fileInfo->getRealPath()
+            new FileInfoCollection(
+                array(
+                    new FileInfo(
+                        $docName.'.'.$fileInfo->getExtension(),
+                        $fileInfo->getRealPath()
+                    )
                 )
-            )),
+            ),
             DocumentCreationInfo::SIGNATURE_TYPE_ESIGN,
             DocumentCreationInfo::SIGNATURE_FLOW_SENDER_SIGNATURE_NOT_REQUIRED
         );
@@ -68,7 +70,8 @@ class EchoSign implements Storage
             if (null !== $this->echoSignClient->getDocumentInfo($oldDocName)) {
                 try {
                     $this->echoSignClient->removeDocument($oldDocName);
-                } catch (\Exception $e) {}
+                } catch (\Exception $e) {
+                }
             }
         }
 
@@ -76,13 +79,14 @@ class EchoSign implements Storage
     }
 
     /**
-     * @see ETS\DocumentStorage\Storage::retrieve
+     * @inheritdoc
      */
     public function retrieve($docName)
-    {}
+    {
+    }
 
     /**
-     * @see ETS\DocumentStorage\Storage::getUrl
+     * @inheritdoc
      */
     public function getUrl($docName)
     {

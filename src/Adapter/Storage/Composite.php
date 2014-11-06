@@ -2,11 +2,12 @@
 
 namespace ETS\DocumentStorage\Adapter\Storage;
 
+use ETS\DocumentStorage\Exception\DocumentNotFoundException;
 use ETS\DocumentStorage\Storage;
 
 class Composite implements Storage
 {
-    /** @var ETS\DocumentStorage\Storage[] */
+    /** @var \ETS\DocumentStorage\Storage[] */
     private $clients;
 
     /**
@@ -18,7 +19,7 @@ class Composite implements Storage
     }
 
     /**
-     * @see ETS\DocumentStorage\Storage::store
+     * @inheritdoc
      */
     public function store($pathOrBody, $docName, $oldDocName = null)
     {
@@ -28,22 +29,26 @@ class Composite implements Storage
     }
 
     /**
-     * @see ETS\DocumentStorage\Storage::retrieve
+     * @inheritdoc
      */
     public function retrieve($docName)
     {
         foreach ($this->clients as $client) {
             return $client->retrieve($docName);
         }
+
+        throw new DocumentNotFoundException(sprintf('Could not retrieve [%s]', $docName));
     }
 
     /**
-     * @see ETS\DocumentStorage\Storage::getUrl
+     * @inheritdoc
      */
     public function getUrl($docName)
     {
         foreach ($this->clients as $client) {
             return $client->getUrl($docName);
         }
+
+        throw new DocumentNotFoundException(sprintf('Could not retrieve [%s]', $docName));
     }
 }
