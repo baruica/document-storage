@@ -17,15 +17,14 @@ Provides implementations to interact with various cloud storage services.
 ```bash
 composer require ets/document-storage
 ```
-See the tags to know which version to use when it asks for a version.
 
 ## Storage adapters
 
-All storage adapters implement the ETS\DocumentStorage\Storage interface:
-- ETS\DocumentStorage\Adapter\Storage\Composite
-- ETS\DocumentStorage\Adapter\Storage\EchoSign
-- ETS\DocumentStorage\Adapter\Storage\Filesystem
-- ETS\DocumentStorage\Adapter\Storage\S3
+All storage adapters implement the ```ETS\DocumentStorage\Storage``` interface:
+- ```ETS\DocumentStorage\Adapter\Storage\Composite```
+- ```ETS\DocumentStorage\Adapter\Storage\EchoSign```
+- ```ETS\DocumentStorage\Adapter\Storage\Filesystem```
+- ```ETS\DocumentStorage\Adapter\Storage\S3```
 
 **To store a document:**
 ```php
