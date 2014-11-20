@@ -2,3 +2,4 @@ formatter.name: pretty
 suites:
     main_suite:
         namespace: ETS\DocumentStorage
+        psr4_prefix: ETS\DocumentStorage
