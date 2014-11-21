@@ -6,6 +6,9 @@ use PhpSpec\ObjectBehavior;
 
 use ETS\DocumentStorage\Exception\DocumentNotFoundException;
 
+/**
+ * @mixin \ETS\DocumentStorage\Adapter\Storage\FileSystem
+ */
 class FilesystemSpec extends ObjectBehavior
 {
     function it_implements_the_Storage_interface()

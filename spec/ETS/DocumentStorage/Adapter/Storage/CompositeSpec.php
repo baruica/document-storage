@@ -6,6 +6,9 @@ use PhpSpec\ObjectBehavior;
 
 use ETS\DocumentStorage\Storage;
 
+/**
+ * @mixin \ETS\DocumentStorage\Adapter\Storage\Composite
+ */
 class CompositeSpec extends ObjectBehavior
 {
     function let(Storage $storage1, Storage $storage2)
