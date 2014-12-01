@@ -13,6 +13,9 @@
     "autoload": {
         "psr-4": { "ETS\\DocumentStorage\\": "src/" }
     },
+    "autoload-dev": {
+        "psr-4": { "ETS\\DocumentStorage\\Tests\\": "tests/" }
+    },
     "config": {
         "bin-dir": "bin"
     },
