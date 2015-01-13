@@ -4,6 +4,8 @@ namespace ETS\DocumentStorage;
 
 interface Storage
 {
+    const CLASSNAME = __CLASS__;
+
     /**
      * @param resource|string $pathOrBody
      * @param string          $docName  the name of the document once stored
