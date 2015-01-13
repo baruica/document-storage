@@ -1,6 +1,5 @@
-bin
-vendor
+/vendor
 
-composer.lock
-phpspec.yml
-phpunit.xml
+/composer.lock
+/phpspec.yml
+/phpunit.xml
