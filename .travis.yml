@@ -6,17 +6,12 @@ php:
     - 5.5
     - 5.6
 
-matrix:
-    include:
-        - php: 5.3.3
-          env: dependencies=lowest
-
 before_install:
     - composer self-update
     - composer install -n
 
 install:
-    - [ "$dependencies" = "lowest" ] && composer update --prefer-lowest --prefer-stable -n
+    - composer update --prefer-lowest --prefer-stable -n
 
 script:
     - echo '[phpspec] Running'; ./vendor/bin/phpspec run
