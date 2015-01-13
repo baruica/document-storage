@@ -1,6 +1,6 @@
 <?php
 
-namespace ETS\DocumentStorage\Tests\Adapter\Storage;
+namespace tests\ETS\DocumentStorage\Adapter\Storage;
 
 use Aws\S3\S3Client;
 
