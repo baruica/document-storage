@@ -1,7 +1,7 @@
 language: php
 
 php:
-    - 5.3
+    - 5.3.3
     - 5.4
     - 5.5
     - 5.6
@@ -9,13 +9,14 @@ php:
 matrix:
     include:
         - php: 5.3.3
-          env: COMPOSER_FLAGS="--prefer-lowest"
+          env: dependencies=lowest
 
 before_install:
     - composer self-update
+    - composer install -n
 
 install:
-    - composer update $COMPOSER_FLAGS
+    - [ "$dependencies" = "lowest" ] && composer update --prefer-lowest --prefer-stable -n
 
 script:
     - echo '[phpspec] Running'; ./vendor/bin/phpspec run
