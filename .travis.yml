@@ -6,9 +6,9 @@ php:
     - 5.6
 
 env:
-  matrix:
-    - PREFER_LOWEST="--prefer-lowest"
-    - PREFER_LOWEST=""
+    matrix:
+        - PREFER_LOWEST="--prefer-lowest"
+        - PREFER_LOWEST=""
 
 before_install:
     - composer self-update
