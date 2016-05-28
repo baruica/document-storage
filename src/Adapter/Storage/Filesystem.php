@@ -1,23 +1,21 @@
 <?php
 
-namespace ETS\DocumentStorage\Adapter\Storage;
+namespace DocumentStorage\Adapter\Storage;
 
-use ETS\DocumentStorage\Storage;
-use ETS\DocumentStorage\Exception\DocumentNotFoundException;
-use ETS\DocumentStorage\Exception\DocumentNotStoredException;
+use DocumentStorage\Storage;
+use DocumentStorage\Exception\DocumentNotFoundException;
+use DocumentStorage\Exception\DocumentNotStoredException;
 
 class Filesystem implements Storage
 {
-    /** @var string $storageDir */
+    /** @var string */
     private $storageDir;
 
     /**
-     * @param string $storageDir
-     *
      * @throws \InvalidArgumentException If $storageDir is not a directory
      * @throws \InvalidArgumentException If $storageDir is not writable
      */
-    public function __construct($storageDir)
+    public function __construct(string $storageDir)
     {
         if (!is_dir($storageDir)) {
             throw new \InvalidArgumentException(sprintf('[%s] is not a directory', $storageDir));
@@ -30,16 +28,13 @@ class Filesystem implements Storage
         $this->storageDir = $storageDir;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function store($pathOrBody, $docName, $oldDocName = null)
+    public function store($pathOrBody, string $docName, string $oldDocName = null) : string
     {
         $docPath = $this->getDocPath($docName);
 
         $storage = file_exists($pathOrBody)
-                ? copy($pathOrBody, $docPath)
-                : file_put_contents($docPath, $pathOrBody);
+                 ? copy($pathOrBody, $docPath)
+                 : file_put_contents($docPath, $pathOrBody);
 
         if (false === $storage) {
             throw new DocumentNotStoredException('There was an error storing the document [%s] to the filesystem.');
@@ -48,10 +43,7 @@ class Filesystem implements Storage
         return $docPath;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function retrieve($docName)
+    public function retrieve(string $docName) : string
     {
         $docPath = $this->getDocPath($docName);
 
@@ -62,18 +54,11 @@ class Filesystem implements Storage
         return $contents;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getUrl($docName)
+    public function getUrl(string $docName) : string
     {
     }
 
-    /**
-     * @param  string $docName
-     * @return string
-     */
-    private function getDocPath($docName)
+    private function getDocPath(string $docName) : string
     {
         return $this->storageDir.DIRECTORY_SEPARATOR.$docName;
     }

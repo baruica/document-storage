@@ -1,5 +1,7 @@
 formatter.name: pretty
 suites:
     main_suite:
-        namespace: ETS\DocumentStorage
-        psr4_prefix: ETS\DocumentStorage
+        namespace: DocumentStorage
+        psr4_prefix: DocumentStorage
+        spec_path: "%paths.config%"
+        spec_prefix: tests

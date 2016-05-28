@@ -1,20 +1,21 @@
 <?php
 
-namespace spec\ETS\DocumentStorage\Adapter\Storage;
+namespace tests\DocumentStorage\Adapter\Storage;
 
 use PhpSpec\ObjectBehavior;
 
-use ETS\DocumentStorage\Exception\DocumentNotFoundException;
+use DocumentStorage\Exception\DocumentNotFoundException;
+use DocumentStorage\Storage;
 
 /**
- * @mixin \ETS\DocumentStorage\Adapter\Storage\FileSystem
+ * @mixin \DocumentStorage\Adapter\Storage\FileSystem
  */
 class FilesystemSpec extends ObjectBehavior
 {
     function it_implements_the_Storage_interface()
     {
         $this->beConstructedWith('/tmp');
-        $this->shouldImplement('ETS\DocumentStorage\Storage');
+        $this->shouldImplement(Storage::class);
     }
 
     function it_throws_an_exception_if_given_storage_dir_is_not_a_directory()
@@ -23,7 +24,7 @@ class FilesystemSpec extends ObjectBehavior
 
         $this
             ->shouldThrow(new \InvalidArgumentException(sprintf('[%s] is not a directory', $storageDir)))
-            ->during('__construct', array($storageDir))
+            ->during('__construct', [$storageDir])
         ;
     }
 
@@ -33,7 +34,7 @@ class FilesystemSpec extends ObjectBehavior
 
         $this
             ->shouldThrow(new \InvalidArgumentException(sprintf('[%s] is not writable', $storageDir)))
-            ->during('__construct', array($storageDir))
+            ->during('__construct', [$storageDir])
         ;
     }
 

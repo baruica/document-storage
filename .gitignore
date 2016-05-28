@@ -1,5 +1,2 @@
-/vendor
-
-/composer.lock
-/phpspec.yml
-/phpunit.xml
+vendor
+composer.lock

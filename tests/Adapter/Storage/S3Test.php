@@ -1,15 +1,16 @@
 <?php
 
-namespace tests\ETS\DocumentStorage\Adapter\Storage;
+namespace tests\DocumentStorage\Adapter\Storage;
 
+use Aws\Common\Enum\Region;
 use Aws\S3\S3Client;
 
-use ETS\DocumentStorage\Adapter\Storage\S3;
+use DocumentStorage\Adapter\Storage\S3;
 
 class S3Test extends \PHPUnit_Framework_TestCase
 {
     /** @var \Aws\S3\S3Client */
-    protected static $client;
+    protected static $s3_client;
 
     /** @var string */
     protected static $bucket;
@@ -17,44 +18,44 @@ class S3Test extends \PHPUnit_Framework_TestCase
     /** @var string */
     protected static $folder;
 
-    /** @var \ETS\DocumentStorage\Adapter\Storage\S3 */
-    protected static $s3;
+    /** @var \DocumentStorage\Adapter\Storage\S3 */
+    protected static $tested;
 
-    private $docNamesToStore = array(
+    private $docNamesToStore = [
         'test-doc.txt',
-    );
+    ];
 
     public static function setUpBeforeClass()
     {
         $processUser = posix_getpwuid(posix_geteuid());
 
         if (!file_exists(sprintf('/home/%s/.aws/credentials', $processUser['name']))) {
-            throw new \PHPUnit_Framework_SkippedTestSuiteError('No credentials file found in home directory, skipping S3 tests.');
+            throw new \PHPUnit_Framework_SkippedTestSuiteError('No credentials file found in home directory, skipping tests.');
         }
 
-        $region = 'eu-west-1';
+        $region = Region::EU_WEST_1;
 
-        self::$client = S3Client::factory(
-            array(
-                'profile' => 'test',
-                'region'  => $region,
-            )
+        self::$s3_client = S3Client::factory(
+            [
+                'profile' => 'test_profile',
+                'region' => $region,
+            ]
         );
 
         self::$bucket = uniqid('document-storage-tests-', true);
         self::$folder = 'test folder';
 
-        self::$client->createBucket(
-            array(
-                'Bucket'             => self::$bucket,
-                'LocationConstraint' => $region,
-            )
-        );
+        self::$s3_client->createBucket([
+            'Bucket' => self::$bucket,
+            'LocationConstraint' => $region,
+        ]);
 
-        self::$client->waitUntilBucketExists(array('Bucket' => self::$bucket));
+        self::$s3_client->waitUntilBucketExists([
+            'Bucket' => self::$bucket,
+        ]);
 
-        self::$s3 = new S3(
-            self::$client,
+        self::$tested = new S3(
+            self::$s3_client,
             self::$bucket,
             self::$folder
         );
@@ -62,79 +63,72 @@ class S3Test extends \PHPUnit_Framework_TestCase
 
     public static function tearDownAfterClass()
     {
-        self::$client->clearBucket(self::$bucket);
+        self::$s3_client->clearBucket(self::$bucket);
 
-        self::$client->deleteBucket(array('Bucket' => self::$bucket));
+        self::$s3_client->deleteBucket(['Bucket' => self::$bucket]);
 
-        self::$client->waitUntilBucketNotExists(array('Bucket' => self::$bucket));
+        self::$s3_client->waitUntilBucketNotExists(['Bucket' => self::$bucket]);
     }
 
-    /**
-     * @return array
-     */
-    public function provideStore()
+    public function provideStore() : array
     {
-        $docsToStore = array();
+        $docsToStore = [];
         foreach ($this->docNamesToStore as $docName) {
-            $docsToStore[] = array($docName, 'test body');
+            $docsToStore[] = [$docName, 'test body'];
         }
 
         return $docsToStore;
     }
 
     /**
+     * @test
      * @dataProvider provideStore
-     *
-     * @param string $docName
-     * @param string $body
      */
-    public function testStore($docName, $body)
+    public function store(string $docName, string $body)
     {
-        $docUrl = self::$s3->store($body, $docName);
+        $docUrl = self::$tested->store($body, $docName);
 
-        $this->assertStringEndsWith($docName, $docUrl);
+        static::assertStringEndsWith($docName, $docUrl);
     }
 
     /**
-     * @expectedException \ETS\DocumentStorage\Exception\DocumentNotStoredException
+     * @test
+     * @expectedException \DocumentStorage\Exception\DocumentNotStoredException
      */
-    public function testFailingStorageThrowsAnException()
+    public function failing_storage_throws_an_exception()
     {
-        self::$s3->store(
+        self::$tested->store(
             (boolean) true, // invalid type for the pathOrBody
             'docName'
         );
     }
 
-    /**
-     * @return array
-     */
-    public function provideDocNames()
+    public function provideDocNames() : array
     {
-        return array(
+        return [
             $this->docNamesToStore,
-        );
+        ];
     }
 
     /**
-     * @depends      testStore
+     * @test
+     * @depends store
      * @dataProvider provideDocNames
-     *
-     * @param string $docName
      */
-    public function testGetUrl($docName)
+    public function get_url(string $docName)
     {
-        $docUrl = self::$s3->getUrl($docName);
+        $docUrl = self::$tested->getUrl($docName);
 
-        $this->assertStringEndsWith($docName, $docUrl);
+        static::assertStringEndsWith($docName, $docUrl);
     }
 
     /**
-     * @depends testStore
-     * @expectedException \ETS\DocumentStorage\Exception\DocumentNotFoundException
+     * @test
+     * @depends store
+     * @expectedException \DocumentStorage\Exception\DocumentNotFoundException
      */
-    public function testRetrieveIfDocDoesNotExist()
+    public function retrieve_if_doc_does_not_exist()
     {
-        self::$s3->retrieve('non-existing-doc.txt');
+        self::$tested->retrieve('non-existing-doc.txt');
     }
 }

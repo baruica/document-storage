@@ -1,11 +1,9 @@
 <?php
 
-namespace ETS\DocumentStorage;
+namespace DocumentStorage;
 
 interface Storage
 {
-    const CLASSNAME = __CLASS__;
-
     /**
      * @param resource|string $pathOrBody
      * @param string          $docName  the name of the document once stored
@@ -13,23 +11,23 @@ interface Storage
      *
      * @return string the document key
      *
-     * @throws \ETS\DocumentStorage\Exception\DocumentNotStoredException If storage failed
+     * @throws \DocumentStorage\Exception\DocumentNotStoredException If storage failed
      */
-    public function store($pathOrBody, $docName, $oldDocName = null);
+    public function store($pathOrBody, string $docName, string $oldDocName = null) : string;
 
     /**
      * @param string $docName
      *
      * @return string the body of the document
      *
-     * @throws \ETS\DocumentStorage\Exception\DocumentNotFoundException If no document is found
+     * @throws \DocumentStorage\Exception\DocumentNotFoundException If no document is found
      */
-    public function retrieve($docName);
+    public function retrieve(string $docName) : string;
 
     /**
      * @param string $docName
      *
      * @return string the document's publicly accessible URL
      */
-    public function getUrl($docName);
+    public function getUrl(string $docName) : string;
 }

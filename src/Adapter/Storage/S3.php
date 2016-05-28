@@ -1,12 +1,12 @@
 <?php
 
-namespace ETS\DocumentStorage\Adapter\Storage;
+namespace DocumentStorage\Adapter\Storage;
 
 use Aws\S3\S3Client;
 
-use ETS\DocumentStorage\Storage;
-use ETS\DocumentStorage\Exception\DocumentNotFoundException;
-use ETS\DocumentStorage\Exception\DocumentNotStoredException;
+use DocumentStorage\Storage;
+use DocumentStorage\Exception\DocumentNotFoundException;
+use DocumentStorage\Exception\DocumentNotStoredException;
 
 class S3 implements Storage
 {
@@ -19,22 +19,14 @@ class S3 implements Storage
     /** @var string */
     private $directory;
 
-    /**
-     * @param \Aws\S3\S3Client $s3Client
-     * @param string           $bucket
-     * @param string           $directory
-     */
-    public function __construct(S3Client $s3Client, $bucket, $directory = null)
+    public function __construct(S3Client $s3Client, string $bucket, string $directory = null)
     {
         $this->s3Client = $s3Client;
         $this->bucket = $bucket;
         $this->directory = $directory;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function store($pathOrBody, $docName, $oldDocName = null)
+    public function store($pathOrBody, string $docName, string $oldDocName = null) : string
     {
         try {
             $uploadResult = $this->s3Client->upload(
@@ -51,24 +43,21 @@ class S3 implements Storage
         // We can poll the object until it is accessible
         $this->s3Client->waitUntil(
             'ObjectExists',
-            array(
+            [
                 'Bucket' => $this->bucket,
-                'Key'    => $this->getKeyPath($docName),
-            )
+                'Key' => $this->getKeyPath($docName),
+            ]
         );
 
         return $uploadResult['ObjectURL'];
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function retrieve($docName)
+    public function retrieve(string $docName) : string
     {
-        $args = array(
+        $args = [
             'Bucket' => $this->bucket,
-            'Key'    => $this->getKeyPath($docName),
-        );
+            'Key' => $this->getKeyPath($docName),
+        ];
 
         try {
             return (string) $this->s3Client->getObject($args)->get('Body');
@@ -79,10 +68,7 @@ class S3 implements Storage
         }
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getUrl($docName)
+    public function getUrl(string $docName) : string
     {
         return $this->s3Client->getObjectUrl(
             $this->bucket,
@@ -90,15 +76,10 @@ class S3 implements Storage
         );
     }
 
-    /**
-     * @param  string $docName
-     *
-     * @return string
-     */
-    private function getKeyPath($docName)
+    private function getKeyPath(string $docName) : string
     {
         return (null === $this->directory)
                ? $docName
-               : $this->directory.'/'.$docName;
+               : $this->directory.DIRECTORY_SEPARATOR.$docName;
     }
 }

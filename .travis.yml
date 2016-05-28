@@ -1,21 +1,22 @@
 language: php
 
-php:
-    - 5.4
-    - 5.5
-    - 5.6
+sudo: false
 
-env:
-    matrix:
-        - PREFER_LOWEST="--prefer-lowest"
-        - PREFER_LOWEST=""
+matrix:
+    include:
+        - php: 7.0
+          env: COMPOSER_FLAGS='--prefer-lowest --prefer-stable'
 
 before_install:
     - composer self-update
 
 install:
-    - composer update --prefer-source $PREFER_LOWEST
+    - composer update $COMPOSER_FLAGS --prefer-dist --no-interaction
+
+before_script:
+    - phpenv config-rm xdebug.ini
 
 script:
+    - make tests
     - echo '[phpspec] Running'; ./vendor/bin/phpspec run
     - echo '[phpunit] Running'; ./vendor/bin/phpunit

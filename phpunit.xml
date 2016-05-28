@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!-- http://phpunit.de/manual/current/en/appendixes.configuration.html -->
-<phpunit bootstrap="vendor/autoload.php" colors="true">
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/5.3/phpunit.xsd"
+         backupGlobals="false"
+         bootstrap="vendor/autoload.php"
+         colors="true"
+>
     <testsuites>
-        <testsuite name="Document Storage Test Suite">
-            <directory>./tests/</directory>
+        <testsuite name="main">
+            <directory suffix="Test.php">tests</directory>
         </testsuite>
     </testsuites>
 
     <filter>
-        <whitelist>
-            <directory>./src/</directory>
+        <whitelist addUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">src</directory>
         </whitelist>
     </filter>
 </phpunit>

@@ -1,52 +1,42 @@
 <?php
 
-namespace ETS\DocumentStorage\Adapter\Storage;
+namespace DocumentStorage\Adapter\Storage;
 
-use ETS\DocumentStorage\Exception\DocumentNotFoundException;
-use ETS\DocumentStorage\Storage;
+use DocumentStorage\Exception\DocumentNotFoundException;
+use DocumentStorage\Storage;
 
 class Composite implements Storage
 {
-    /** @var \ETS\DocumentStorage\Storage[] */
-    private $clients;
+    /** @var Storage[] */
+    private $storages;
 
-    /**
-     * @param array $clients
-     */
-    public function __construct(array $clients)
+    public function __construct(array $storages)
     {
-        $this->clients = $clients;
+        $this->storages = $storages;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function store($pathOrBody, $docName, $oldDocName = null)
+    public function store($pathOrBody, string $docName, string $oldDocName = null) : string
     {
-        foreach ($this->clients as $client) {
-            $client->store($pathOrBody, $docName, $oldDocName);
+        foreach ($this->storages as $storage) {
+            $storage->store($pathOrBody, $docName, $oldDocName);
         }
+
+        return $docName;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function retrieve($docName)
+    public function retrieve(string $docName) : string
     {
-        foreach ($this->clients as $client) {
-            return $client->retrieve($docName);
+        foreach ($this->storages as $storage) {
+            return $storage->retrieve($docName);
         }
 
         throw new DocumentNotFoundException(sprintf('Could not retrieve [%s]', $docName));
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getUrl($docName)
+    public function getUrl(string $docName) : string
     {
-        foreach ($this->clients as $client) {
-            return $client->getUrl($docName);
+        foreach ($this->storages as $storage) {
+            return $storage->getUrl($docName);
         }
 
         throw new DocumentNotFoundException(sprintf('Could not retrieve [%s]', $docName));

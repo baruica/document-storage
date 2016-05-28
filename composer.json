@@ -1,33 +1,23 @@
 {
-    "name": "ets/document-storage",
+    "name": "baruica/document-storage",
     "type": "library",
     "description": "Provides implementations to interact with various document storage services",
-    "keywords": ["aws", "s3", "cloud", "document-storage", "echosign"],
-    "homepage": "https://github.com/ETSGlobal/document-storage",
+    "keywords": ["aws", "document-storage", "s3"],
+    "homepage": "https://github.com/baruica/document-storage",
     "license": "Apache-2.0",
-    "authors": [
-        {
-            "name": "ETS Global Dev Team",
-            "email": "ecs@etsglobal.org"
-        }
-    ],
     "autoload": {
-        "psr-4": {
-            "ETS\\DocumentStorage\\": "src/"
-        }
+        "psr-4": { "DocumentStorage\\": "src" },
+        "exclude-from-classmap": [ "tests" ]
     },
     "autoload-dev": {
-        "psr-4": {
-            "tests\\ETS\\DocumentStorage\\": "tests/"
-        }
+        "psr-4": { "tests\\DocumentStorage\\": "tests" }
     },
     "require": {
-        "php": ">=5.3.3",
-        "aws/aws-sdk-php" : "~2.7",
-        "ets/echosign-bundle": "~0.2"
+        "php": "^7.0",
+        "aws/aws-sdk-php" : "^3.18"
     },
     "require-dev": {
-        "phpspec/phpspec": "~2.1",
-        "phpunit/phpunit": ">=3.7,<5.0"
+        "phpspec/phpspec": "^2.5",
+        "phpunit/phpunit": "^5.3"
     }
 }
