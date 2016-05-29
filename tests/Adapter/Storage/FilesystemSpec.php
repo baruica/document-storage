@@ -12,13 +12,13 @@ use DocumentStorage\Storage;
  */
 class FilesystemSpec extends ObjectBehavior
 {
-    function it_implements_the_Storage_interface()
+    public function it_implements_the_Storage_interface()
     {
         $this->beConstructedWith('/tmp');
         $this->shouldImplement(Storage::class);
     }
 
-    function it_throws_an_exception_if_given_storage_dir_is_not_a_directory()
+    public function it_throws_an_exception_if_given_storage_dir_is_not_a_directory()
     {
         $storageDir = '/not/a/directory';
 
@@ -28,7 +28,7 @@ class FilesystemSpec extends ObjectBehavior
         ;
     }
 
-    function it_throws_an_exception_if_given_storage_dir_is_not_writable()
+    public function it_throws_an_exception_if_given_storage_dir_is_not_writable()
     {
         $storageDir = '/boot';
 
@@ -38,7 +38,7 @@ class FilesystemSpec extends ObjectBehavior
         ;
     }
 
-    function it_throws_an_exception_if_it_cannot_retrieve_a_document()
+    public function it_throws_an_exception_if_it_cannot_retrieve_a_document()
     {
         $storageDir = '/tmp';
         $docName = 'non-exixtent-doc';
