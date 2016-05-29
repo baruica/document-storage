@@ -30,7 +30,7 @@ The method returns the document's url.
 ```php
 $docUrl = $storage->getUrl('docName');
 ```
-If the document doesn't exist, it will throw a ```DocumentStorage\Exception\DocumentNotFoundException```
+If the document doesn't exist, it will throw a ```DocumentStorage\Exception\DocumentNotFound```
 
 ## Code License
 
