@@ -15,7 +15,7 @@ class Composite implements Storage
         $this->storages = $storages;
     }
 
-    public function store($pathOrBody, string $docName, string $oldDocName = null) : string
+    public function store($pathOrBody, string $docName, string $oldDocName = '') : string
     {
         foreach ($this->storages as $storage) {
             $storage->store($pathOrBody, $docName, $oldDocName);

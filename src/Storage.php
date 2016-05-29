@@ -13,7 +13,7 @@ interface Storage
      *
      * @throws \DocumentStorage\Exception\DocumentNotStoredException If storage failed
      */
-    public function store($pathOrBody, string $docName, string $oldDocName = null) : string;
+    public function store($pathOrBody, string $docName, string $oldDocName = '') : string;
 
     /**
      * @param string $docName

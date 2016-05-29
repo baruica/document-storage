@@ -28,8 +28,8 @@ class CompositeSpec extends ObjectBehavior
         $path = '/path';
         $docName = 'docName';
 
-        $storage1->store($path, $docName, null)->shouldBeCalled();
-        $storage2->store($path, $docName, null)->shouldBeCalled();
+        $storage1->store($path, $docName, '')->shouldBeCalled();
+        $storage2->store($path, $docName, '')->shouldBeCalled();
 
         $this->store($path, $docName);
     }

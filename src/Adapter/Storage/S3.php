@@ -18,14 +18,14 @@ class S3 implements Storage
     /** @var string */
     private $directory;
 
-    public function __construct(S3Client $s3Client, string $bucket, string $directory = null)
+    public function __construct(S3Client $s3Client, string $bucket, string $directory = '')
     {
         $this->s3Client = $s3Client;
         $this->bucket = $bucket;
         $this->directory = $directory;
     }
 
-    public function store($pathOrBody, string $docName, string $oldDocName = null) : string
+    public function store($pathOrBody, string $docName, string $oldDocName = '') : string
     {
         try {
             $uploadResult = $this->s3Client->upload(
@@ -77,7 +77,7 @@ class S3 implements Storage
 
     private function getKeyPath(string $docName) : string
     {
-        return (null === $this->directory)
+        return ('' === $this->directory)
                ? $docName
                : $this->directory.DIRECTORY_SEPARATOR.$docName;
     }
