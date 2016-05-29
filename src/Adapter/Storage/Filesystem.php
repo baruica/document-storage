@@ -2,9 +2,9 @@
 
 namespace DocumentStorage\Adapter\Storage;
 
+use DocumentStorage\Exception\DocumentNotFound;
+use DocumentStorage\Exception\DocumentNotStored;
 use DocumentStorage\Storage;
-use DocumentStorage\Exception\DocumentNotFoundException;
-use DocumentStorage\Exception\DocumentNotStoredException;
 
 class Filesystem implements Storage
 {
@@ -37,7 +37,7 @@ class Filesystem implements Storage
                  : file_put_contents($docPath, $pathOrBody);
 
         if (false === $storage) {
-            throw new DocumentNotStoredException('There was an error storing the document [%s] to the filesystem.');
+            throw new DocumentNotStored('There was an error storing the document [%s] to the filesystem.');
         }
 
         return $docPath;
@@ -48,7 +48,7 @@ class Filesystem implements Storage
         $docPath = $this->getDocPath($docName);
 
         if (false === file_exists($docPath) || false === $contents = file_get_contents($docPath)) {
-            throw new DocumentNotFoundException(sprintf('Could not retrieve [%s]', $docPath));
+            throw new DocumentNotFound(sprintf('Could not retrieve [%s]', $docPath));
         }
 
         return $contents;

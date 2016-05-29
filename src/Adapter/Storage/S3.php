@@ -3,9 +3,9 @@
 namespace DocumentStorage\Adapter\Storage;
 
 use Aws\S3\S3Client;
+use DocumentStorage\Exception\DocumentNotFound;
+use DocumentStorage\Exception\DocumentNotStored;
 use DocumentStorage\Storage;
-use DocumentStorage\Exception\DocumentNotFoundException;
-use DocumentStorage\Exception\DocumentNotStoredException;
 
 class S3 implements Storage
 {
@@ -34,7 +34,7 @@ class S3 implements Storage
                 file_exists($pathOrBody) ? file_get_contents($pathOrBody) : $pathOrBody
             );
         } catch (\Exception $e) {
-            throw new DocumentNotStoredException(
+            throw new DocumentNotStored(
                 sprintf('There was an error storing the document [%s]', $e->getMessage())
             );
         }
@@ -61,7 +61,7 @@ class S3 implements Storage
         try {
             return (string) $this->s3Client->getObject($args)->get('Body');
         } catch (\Exception $e) {
-            throw new DocumentNotFoundException(
+            throw new DocumentNotFound(
                 sprintf('Unable to retrieve document [%s] from bucket [%s]', $this->getKeyPath($docName), $this->bucket)
             );
         }

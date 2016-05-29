@@ -11,7 +11,7 @@ interface Storage
      *
      * @return string the document key
      *
-     * @throws \DocumentStorage\Exception\DocumentNotStoredException If storage failed
+     * @throws \DocumentStorage\Exception\DocumentNotStored If storage failed
      */
     public function store(string $pathOrBody, string $docName, string $oldDocName = '') : string;
 
@@ -20,7 +20,7 @@ interface Storage
      *
      * @return string the body of the document
      *
-     * @throws \DocumentStorage\Exception\DocumentNotFoundException If no document is found
+     * @throws \DocumentStorage\Exception\DocumentNotFound If no document is found
      */
     public function retrieve(string $docName) : string;
 

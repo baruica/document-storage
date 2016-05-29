@@ -2,7 +2,7 @@
 
 namespace DocumentStorage\Adapter\Storage;
 
-use DocumentStorage\Exception\DocumentNotFoundException;
+use DocumentStorage\Exception\DocumentNotFound;
 use DocumentStorage\Storage;
 
 class Composite implements Storage
@@ -30,7 +30,7 @@ class Composite implements Storage
             return $storage->retrieve($docName);
         }
 
-        throw new DocumentNotFoundException(sprintf('Could not retrieve [%s]', $docName));
+        throw new DocumentNotFound(sprintf('Could not retrieve [%s]', $docName));
     }
 
     public function getUrl(string $docName) : string
@@ -39,6 +39,6 @@ class Composite implements Storage
             return $storage->getUrl($docName);
         }
 
-        throw new DocumentNotFoundException(sprintf('Could not retrieve [%s]', $docName));
+        throw new DocumentNotFound(sprintf('Could not retrieve [%s]', $docName));
     }
 }
