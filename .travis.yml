@@ -11,8 +11,5 @@ before_install:
 install:
     - composer update --prefer-lowest --prefer-stable --prefer-dist --no-interaction
 
-before_script:
-    - phpenv config-rm xdebug.ini
-
 script:
     - make tests
