@@ -10,7 +10,7 @@ class Composite implements Storage
     /** @var Storage[] */
     private $storages;
 
-    public function __construct(array $storages)
+    public function __construct(Storage ...$storages)
     {
         $this->storages = $storages;
     }
