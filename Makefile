@@ -10,4 +10,3 @@ VENDOR_BIN := vendor/bin
 
 tests: ## run phpspec and phpunit if available in vendor/bin
 	@[ -x $(VENDOR_BIN)/phpspec ] && $(VENDOR_BIN)/phpspec run --no-interaction -f dot
-	@[ -x $(VENDOR_BIN)/phpunit ] && $(VENDOR_BIN)/phpunit

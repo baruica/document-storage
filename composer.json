@@ -2,7 +2,7 @@
     "name": "baruica/document-storage",
     "type": "library",
     "description": "Provides implementations to interact with various document storage services",
-    "keywords": ["aws", "document-storage", "s3"],
+    "keywords": ["document-storage"],
     "homepage": "https://github.com/baruica/document-storage",
     "license": "Apache-2.0",
     "autoload": {
@@ -13,11 +13,9 @@
         "psr-4": { "tests\\DocumentStorage\\": "tests" }
     },
     "require": {
-        "php": "^7.0",
-        "aws/aws-sdk-php" : "^3.0.0"
+        "php": "^7.0"
     },
     "require-dev": {
-        "phpspec/phpspec": "^2.5",
-        "phpunit/phpunit": "^5.3"
+        "phpspec/phpspec": "^2.5"
     }
 }
