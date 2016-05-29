@@ -1,4 +1,4 @@
-# DocumentStorage library
+# document-storage
 
 Provides adapters to various storage services.
 

@@ -2,8 +2,6 @@
 
 namespace tests\DocumentStorage\Adapter\Storage;
 
-use DocumentStorage\Adapter\Storage\Filesystem;
-use DocumentStorage\Adapter\Storage\S3;
 use DocumentStorage\Storage;
 use PhpSpec\ObjectBehavior;
 
@@ -12,7 +10,7 @@ use PhpSpec\ObjectBehavior;
  */
 class CompositeSpec extends ObjectBehavior
 {
-    public function let(Filesystem $storage1, S3 $storage2)
+    public function let(Storage $storage1, Storage $storage2)
     {
         $this->beConstructedWith(
             $storage1,
