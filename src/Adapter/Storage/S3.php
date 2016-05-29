@@ -3,7 +3,6 @@
 namespace DocumentStorage\Adapter\Storage;
 
 use Aws\S3\S3Client;
-
 use DocumentStorage\Storage;
 use DocumentStorage\Exception\DocumentNotFoundException;
 use DocumentStorage\Exception\DocumentNotStoredException;

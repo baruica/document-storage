@@ -4,7 +4,6 @@ namespace tests\DocumentStorage\Adapter\Storage;
 
 use Aws\Common\Enum\Region;
 use Aws\S3\S3Client;
-
 use DocumentStorage\Adapter\Storage\S3;
 
 class S3Test extends \PHPUnit_Framework_TestCase

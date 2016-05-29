@@ -4,7 +4,6 @@ namespace tests\DocumentStorage\Adapter\Storage;
 
 use Aws\S3\S3Client;
 use PhpSpec\ObjectBehavior;
-
 use DocumentStorage\Storage;
 
 /**

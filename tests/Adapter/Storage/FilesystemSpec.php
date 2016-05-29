@@ -3,7 +3,6 @@
 namespace tests\DocumentStorage\Adapter\Storage;
 
 use PhpSpec\ObjectBehavior;
-
 use DocumentStorage\Exception\DocumentNotFoundException;
 use DocumentStorage\Storage;
 

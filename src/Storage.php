@@ -6,7 +6,7 @@ interface Storage
 {
     /**
      * @param resource|string $pathOrBody
-     * @param string          $docName  the name of the document once stored
+     * @param string          $docName    the name of the document once stored
      * @param string          $oldDocName
      *
      * @return string the document key

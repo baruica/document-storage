@@ -3,7 +3,6 @@
 namespace tests\DocumentStorage\Adapter\Storage;
 
 use PhpSpec\ObjectBehavior;
-
 use DocumentStorage\Storage;
 
 /**
@@ -15,7 +14,7 @@ class CompositeSpec extends ObjectBehavior
     {
         $this->beConstructedWith([
             $storage1,
-            $storage2
+            $storage2,
         ]);
     }
 
