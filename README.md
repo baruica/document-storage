@@ -2,11 +2,13 @@
 
 Provides adapters to various storage services.
 
+[![Author](http://img.shields.io/badge/author-@baruica-blue.svg?style=flat-square)](https://twitter.com/baruica)
 [![Build Status](https://img.shields.io/travis/baruica/document-storage.svg?style=flat-square)](https://travis-ci.org/baruica/document-storage)
-[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/baruica/document-storage.svg?style=flat-square)](https://scrutinizer-ci.com/g/baruica/document-storage/?branch=master)
+[![Quality Score](https://img.shields.io/scrutinizer/g/baruica/document-storage.svg?style=flat-square)](https://scrutinizer-ci.com/g/baruica/document-storage/?branch=master)
 
-## Installation
+## Install
 
+Via composer
 ```bash
 composer require baruica/document-storage
 ```
