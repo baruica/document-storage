@@ -12,10 +12,10 @@ class CompositeSpec extends ObjectBehavior
 {
     public function let(Storage $storage1, Storage $storage2)
     {
-        $this->beConstructedWith([
+        $this->beConstructedWith(
             $storage1,
-            $storage2,
-        ]);
+            $storage2
+        );
     }
 
     public function it_implements_the_Storage_interface()

@@ -5,6 +5,8 @@ namespace tests\DocumentStorage\Adapter\Storage;
 use Aws\Common\Enum\Region;
 use Aws\S3\S3Client;
 use DocumentStorage\Adapter\Storage\S3;
+use DocumentStorage\Exception\DocumentNotFoundException;
+use DocumentStorage\Exception\DocumentNotStoredException;
 
 class S3Test extends \PHPUnit_Framework_TestCase
 {
@@ -90,12 +92,11 @@ class S3Test extends \PHPUnit_Framework_TestCase
         static::assertStringEndsWith($docName, $docUrl);
     }
 
-    /**
-     * @test
-     * @expectedException \DocumentStorage\Exception\DocumentNotStoredException
-     */
+    /** @test */
     public function failing_storage_throws_an_exception()
     {
+        $this->expectException(DocumentNotStoredException::class);
+
         self::$tested->store(
             (boolean) true, // invalid type for the pathOrBody
             'docName'
@@ -124,10 +125,11 @@ class S3Test extends \PHPUnit_Framework_TestCase
     /**
      * @test
      * @depends store
-     * @expectedException \DocumentStorage\Exception\DocumentNotFoundException
      */
     public function retrieve_if_doc_does_not_exist()
     {
+        $this->expectException(DocumentNotFoundException::class);
+
         self::$tested->retrieve('non-existing-doc.txt');
     }
 }
