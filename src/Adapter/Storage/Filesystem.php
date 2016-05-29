@@ -28,7 +28,7 @@ class Filesystem implements Storage
         $this->storageDir = $storageDir;
     }
 
-    public function store($pathOrBody, string $docName, string $oldDocName = '') : string
+    public function store(string $pathOrBody, string $docName, string $oldDocName = '') : string
     {
         $docPath = $this->getDocPath($docName);
 

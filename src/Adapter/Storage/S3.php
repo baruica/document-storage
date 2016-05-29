@@ -25,7 +25,7 @@ class S3 implements Storage
         $this->directory = $directory;
     }
 
-    public function store($pathOrBody, string $docName, string $oldDocName = '') : string
+    public function store(string $pathOrBody, string $docName, string $oldDocName = '') : string
     {
         try {
             $uploadResult = $this->s3Client->upload(

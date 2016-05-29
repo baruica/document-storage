@@ -5,15 +5,15 @@ namespace DocumentStorage;
 interface Storage
 {
     /**
-     * @param resource|string $pathOrBody
-     * @param string          $docName    the name of the document once stored
-     * @param string          $oldDocName
+     * @param string $pathOrBody
+     * @param string $docName    the name of the document once stored
+     * @param string $oldDocName
      *
      * @return string the document key
      *
      * @throws \DocumentStorage\Exception\DocumentNotStoredException If storage failed
      */
-    public function store($pathOrBody, string $docName, string $oldDocName = '') : string;
+    public function store(string $pathOrBody, string $docName, string $oldDocName = '') : string;
 
     /**
      * @param string $docName
