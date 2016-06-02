@@ -32,11 +32,11 @@ class Filesystem implements Storage
     {
         $docPath = $this->getDocPath($docName);
 
-        $storage = file_exists($pathOrBody)
+        $stored = file_exists($pathOrBody)
                  ? copy($pathOrBody, $docPath)
                  : file_put_contents($docPath, $pathOrBody);
 
-        if (false === $storage) {
+        if (false === $stored) {
             throw new DocumentNotStored('There was an error storing the document [%s] to the filesystem.');
         }
 
