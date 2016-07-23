@@ -28,9 +28,9 @@ class Filesystem implements Storage
         $this->storageDir = $storageDir;
     }
 
-    public function store(string $pathOrBody, string $docName, string $oldDocName = '') : string
+    public function store(string $pathOrBody, string $targetDocName, string $oldDocName = '') : string
     {
-        $docPath = $this->getDocPath($docName);
+        $docPath = $this->getDocPath($targetDocName);
 
         $stored = file_exists($pathOrBody)
                  ? copy($pathOrBody, $docPath)

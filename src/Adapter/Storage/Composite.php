@@ -15,13 +15,13 @@ class Composite implements Storage
         $this->storages = $storages;
     }
 
-    public function store(string $pathOrBody, string $docName, string $oldDocName = '') : string
+    public function store(string $pathOrBody, string $targetDocName, string $oldDocName = '') : string
     {
         foreach ($this->storages as $storage) {
-            $storage->store($pathOrBody, $docName, $oldDocName);
+            $storage->store($pathOrBody, $targetDocName, $oldDocName);
         }
 
-        return $docName;
+        return $targetDocName;
     }
 
     public function retrieve(string $docName) : string
