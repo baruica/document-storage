@@ -1,13 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace tests\DocumentStorage\Adapter\Storage;
 
 use DocumentStorage\Storage;
 use PhpSpec\ObjectBehavior;
 
-/**
- * @mixin \DocumentStorage\Adapter\Storage\Composite
- */
 class CompositeSpec extends ObjectBehavior
 {
     public function let(Storage $storage1, Storage $storage2)

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace tests\DocumentStorage\Adapter\Storage;
 
@@ -6,9 +6,6 @@ use PhpSpec\ObjectBehavior;
 use DocumentStorage\Exception\DocumentNotFound;
 use DocumentStorage\Storage;
 
-/**
- * @mixin \DocumentStorage\Adapter\Storage\FileSystem
- */
 class FilesystemSpec extends ObjectBehavior
 {
     public function it_implements_the_Storage_interface()
