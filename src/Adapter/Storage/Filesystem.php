@@ -56,6 +56,7 @@ class Filesystem implements Storage
 
     public function getUrl(string $docName) : string
     {
+        return '';
     }
 
     private function getDocPath(string $docName) : string

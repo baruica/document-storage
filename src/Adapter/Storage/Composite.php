@@ -26,19 +26,19 @@ class Composite implements Storage
 
     public function retrieve(string $docName) : string
     {
-        foreach ($this->storages as $storage) {
-            return $storage->retrieve($docName);
+        if (empty($this->storages)) {
+            throw new DocumentNotFound(sprintf('Could not retrieve [%s]', $docName));
         }
 
-        throw new DocumentNotFound(sprintf('Could not retrieve [%s]', $docName));
+        return $this->storages[0]->retrieve($docName);
     }
 
     public function getUrl(string $docName) : string
     {
-        foreach ($this->storages as $storage) {
-            return $storage->getUrl($docName);
+        if (empty($this->storages)) {
+            throw new DocumentNotFound(sprintf('Could not retrieve [%s]', $docName));
         }
 
-        throw new DocumentNotFound(sprintf('Could not retrieve [%s]', $docName));
+        return $this->storages[0]->getUrl($docName);
     }
 }
