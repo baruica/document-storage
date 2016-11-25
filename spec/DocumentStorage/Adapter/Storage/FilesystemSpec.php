@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace tests\DocumentStorage\Adapter\Storage;
+namespace DocumentStorage\Adapter\Storage;
 
 use PhpSpec\ObjectBehavior;
 use DocumentStorage\Exception\DocumentNotFound;
@@ -43,7 +43,7 @@ class FilesystemSpec extends ObjectBehavior
 
         $this
             ->shouldThrow(new DocumentNotFound(sprintf('Could not retrieve [%s]', $storageDir.DIRECTORY_SEPARATOR.$docName)))
-            ->duringRetrieve($docName)
+            ->during('retrieve', [$docName])
         ;
     }
 }
